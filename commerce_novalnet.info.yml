@@ -1,0 +1,13 @@
+name: Novalnet Payments
+type: module
+description: 'PCI compliant payment solution, covering a full scope of payment services and seamless integration for easy adaptability.'
+package: Novalnet
+configure: commerce_novalnet.global_settings
+version: '1.1.0'
+project: 'commerce_novalnet'
+core_version_requirement: ^8.9 || ^9
+
+dependencies:
+- commerce:commerce
+- commerce:commerce_payment
+- entity:entity

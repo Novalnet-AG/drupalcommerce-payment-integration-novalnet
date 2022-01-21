@@ -1,0 +1,193 @@
+﻿commerce_payment.commerce_payment_gateway.plugin.novalnet_invoice:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+    novalnet_invoice_due_date:
+      type: string
+      label: 'Payment due date (in days)'
+      translatable: true
+    transaction_type:
+      type: string
+      label: 'Payment action'
+      translatable: true
+    manual_amount_limit:
+      type: string
+      label: 'Minimum transaction limit for authorization'
+      translatable: true
+    invoice_guarantee_payment:
+      type: boolean
+      label: 'Enable payment guarantee'
+      translatable: true      
+    invoice_guarantee_payment_minimum_order_amount:
+      type: string
+      label: 'Minimum order amount (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)'
+      translatable: true
+    novalnet_invoice_force_normal_payment:
+      type: boolean
+      label: 'Force Non-Guarantee payment'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_sepa:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+    novalnet_sepa_due_date:
+      type: string
+      label: 'Payment due date (in days)'
+      translatable: true
+    transaction_type:
+      type: string
+      label: 'Payment action'
+      translatable: true
+    manual_amount_limit:
+      type: string
+      label: 'Minimum transaction limit for authorization'
+      translatable: true
+    novalnet_sepa_guarantee_payment:
+      type: boolean
+      label: 'Enable payment guarantee'  
+      translatable: true
+    novalnet_sepa_guarantee_payment_minimum_order_amount:
+      type: string
+      label: 'Minimum order amount (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)'
+      translatable: true
+    novalnet_sepa_force_normal_payment:
+      type: boolean
+      label: 'Force Non-Guarantee payment'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_prepayment:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+    due_date:
+      type: string
+      label: 'Payment due date (in days)'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_multibanco:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_cashpayment:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+    slip_expiry_date:
+      type: string
+      label: 'Slip expiry date (in days)'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_cc:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+    cc_inline_iframe:
+      type: boolean
+      label: 'Enable Credit Card Inline iframe'
+      translatable: true
+    transaction_type:
+      type: string
+      label: 'Payment action'
+      translatable: true
+    manual_amount_limit:
+      type: string
+      label: 'Minimum transaction limit for authorization'
+      translatable: true
+    novalnet_creditcard_css_label:
+      type: string
+      label: 'Label'
+      translatable: true
+    novalnet_creditcard_css_input:
+      type: string
+      label: 'Input'
+      translatable: true
+    novalnet_creditcard_css_text:
+      type: string
+      label: 'CSS Text'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_sofort:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_paypal:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+    transaction_type:
+      type: string
+      label: 'Payment action'
+      translatable: true
+    manual_amount_limit:
+      type: string
+      label: 'Minimum transaction limit for authorization'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_eps:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_ideal:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_bancontact:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_postfinance:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_postfinancecard:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_giropay:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_przelewy24:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
