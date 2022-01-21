@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * @file
+ * Contains hooks for Commerce Novalnet payment module.
+ *
+ * @category   PHP
+ * @package    commerce_novalnet
+ * @author     Novalnet AG
+ * @copyright  Copyright by Novalnet
+ * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
+ * @version    1.0.0
+ */
+
+use Drupal\file\FileInterface;
+use Drupal\commerce_novalnet\Novalnet;
+
+/**
+ * Implements hook_preprocess_commerce_checkout_completion_message().
+ */
+function commerce_novalnet_preprocess_commerce_checkout_completion_message(&$variables) {
+  $order = $variables['order_entity'];
+  $variables['payment_instructions'] = [
+    '#markup' => '<span class="commerce-novalnet-comments">' . $order->getData('transaction_details')['message'] . '</span>',
+  ];
+}
+/**
+ * Implements hook_preprocess_commerce_order().
+ */
+function commerce_novalnet_preprocess_commerce_order(&$variables) {
+  $order = $variables['order_entity'];
+  $variables['novalnet_transaction_details'] = [
+    '#markup' => '<span class="commerce-novalnet-comments">' . $order->getData('transaction_details')['message'] . '</span>',
+  ];
+}
+
+/**
+ * Implements hook_preprocess_commerce_order_receipt().
+ */
+function commerce_novalnet_preprocess_commerce_order_receipt(&$variables) {
+	$order = $variables['order_entity'];
+	$variables['novalnet_transaction_details'] = [
+		  '#markup' => '<span class="commerce-novalnet-comments">' . $order->getData('transaction_details')['message'] . '</span>',
+		];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function commerce_novalnet_form_alter(&$form, &$variables, $form_id) {
+
+  if (!empty($form['#step_id']) && $form['#step_id'] == 'order_information') {
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $payment_gateway_storage = $entity_type_manager->getStorage('commerce_payment_gateway');
+    $gateways = $payment_gateway_storage->loadMultiple();
+    foreach ($gateways as $gateway) {
+      if ($gateway->id() == $form['payment_information']['payment_method']['#default_value']) {
+        $configuration = $gateway->getPluginConfiguration();
+        if (isset($configuration['notification'])) {
+        $form['payment_information']['payment_method']['display_title'] = Novalnet::displayPaymentLogo($configuration['display_label'], $gateway->getPluginId());
+        if ($configuration['mode'] == 'test') {
+        $form['payment_information']['payment_method']['test_mode'] = [
+         'inside' => [
+          '#type' => 'html_tag',
+          '#tag' => 'p',
+          '#value' => '<br />' . t('Test Mode'),
+          '#attributes' => [
+            'style' => 'position: relative;
+						background-color: #0080c9;
+						color: #fff;
+						padding: 10px 20px;
+						margin-bottom: 8px;
+						font-size: 10px;
+						text-align: center;
+						text-transform: uppercase;
+						letter-spacing: 1px;
+						line-height: 0.8px;
+						border-radius: 0px 0px 5px 5px;
+						transition: transform 0.5s ease 0.5s;
+						animation: novalnet-test-mode-blinker 2s linear infinite;
+						font-weight: bold;
+						float: right;
+						top: -0px;'
+          ],
+        ],
+      ];
+    }
+    $form['payment_information']['payment_method']['description'] = [
+      '#type' => 'html_tag',
+	  '#tag' => 'p',
+      '#value' => '<br />' .Novalnet::getDescription($gateway->getPluginId()),
+      '#attributes' => [
+            'style' => 'position: relative;
+						 width: 95%;
+						height: auto;
+						background: content-box;
+						font-size: 14px;
+						color: #333;
+						margin: 20px 0px;
+						padding: 1em 1em;
+						border-left: 5px solid #0080c9;
+						box-shadow:0 0 8px 0px rgba(0,0,0,.4);
+						clear: both;
+						word-break:break-word;'
+					],
+
+	];
+
+          if (!empty($configuration['notification'])) {
+            $form['payment_information']['payment_method']['buyer_notification'] = [
+              '#prefix' => '<p>',
+              '#markup' => $configuration['notification'],
+              '#suffix' => '</p>',
+            ];
+          }
+        }
+      }
+    }
+  }
+}
+

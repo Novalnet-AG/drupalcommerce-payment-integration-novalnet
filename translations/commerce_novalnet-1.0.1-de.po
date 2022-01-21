@@ -1,0 +1,582 @@
+# German translation of commerce Novalnet PaymentS
+# Copyright (c) by Novalnet AG
+# Generated from files:
+# commerce_novalnet.module, v 1.0.0 Novalnet AG
+msgid ""
+msgstr ""
+"Project-Id-Version: Commerce Novalnet (8.x-1.0.1)\n"
+"POT-Creation-Date: 2018-12-30 12:32+0000\n"
+"PO-Revision-Date: 2021-10-20 17:38+0530\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Last-Translator: \n"
+"Language: de\n"
+"X-Generator: Poedit 2.0.6\n"
+
+msgid "https://www.novalnet.com"
+msgstr "https://www.novalnet.de"
+
+msgid "The payment method logo will be displayed on the checkout page"
+msgstr "Das Logo der Zahlungsart wird auf der Checkout-Seite angezeigt."
+
+msgid "Novalnet transaction ID: @tid"
+msgstr "Novalnet Transaktions-ID: @tid"
+
+msgid "Test order"
+msgstr "Testbestellung"
+
+msgid "Credit Card"
+msgstr "Kreditkarte"
+
+msgid "Direct Debit SEPA"
+msgstr "Lastschrift SEPA"
+
+msgid "Direct Debit SEPA with payment guarantee"
+msgstr "SEPA-Lastschrift mit Zahlungsgarantie"
+
+msgid "on_hold"
+msgstr "on_hold"
+
+msgid "Configure"
+msgstr "Konfigurieren"
+
+msgid "Please enter the valid webhook URL"
+msgstr "Bitte geben Sie eine gültige Webhook-URL ein"
+
+msgid "Notification / Webhook URL is configured successfully in Novalnet Admin Portal"
+msgstr "Callbackskript-/ Webhook-URL wurde erfolgreich im Novalnet Admin Portal konfiguriert"
+
+msgid "Please enter valid details"
+msgstr "Bitte geben Sie gültige Daten ein"
+
+msgid "Invoice"
+msgstr "Kauf auf Rechnung"
+
+msgid "Invoice with payment guarantee"
+msgstr "Rechnung mit Zahlungsgarantie"
+
+msgid "Barzahlen/viacash"
+msgstr "Barzahlen/viacash"
+
+msgid "iDEAL"
+msgstr "iDEAL"
+
+msgid "PayPal"
+msgstr "PayPal"
+
+msgid "EPS"
+msgstr "EPS"
+
+msgid "Giropay"
+msgstr "Giropay"
+
+msgid "Credit has been successfully received for the TID : @tid with amount @amt. Please refer PAID order details in our Novalnet Admin Portal for the TID @tid"
+msgstr "Die Gutschrift für die TID ist erfolgreich eingegangen: @tid mit Betrag %2$s  am @amt. Bitte entnehmen Sie die TID den Einzelheiten der Bestellung bei BEZAHLT in unserem Novalnet Adminportal: @tid"
+
+msgid "The transaction has been cancelled on @date"
+msgstr "Die Transaktion wurde am @date Uhr storniert."
+
+msgid "Przelewy24"
+msgstr "Przelewy24"
+
+msgid "Payment due date (in days)"
+msgstr "Fälligkeitsdatum (in Tagen)"
+
+msgid "Prepayment"
+msgstr "Vorauskasse"
+
+msgid "Instant Bank Transfer"
+msgstr "Sofort"
+
+msgid "Name on the card"
+msgstr "Name auf der Kreditkarte"
+
+msgid "Please enter the valid card holder name"
+msgstr "Bitte geben Sie eine gültige name des Karteninhabers"
+
+msgid "XXXX XXXX XXXX XXXX"
+msgstr "XXXX XXXX XXXX XXXX"
+
+msgid "Please enter the valid card number"
+msgstr "Bitte geben Sie eine gültige Kreditkartennummer"
+
+msgid "Please enter the valid expiry month / year in the given format"
+msgstr "Bitte geben Sie eine gültige Ablauf Monat / Jahr in dem gegeben Format"
+
+msgid "xxx"
+msgstr "xxx"
+
+msgid "Please enter the valid CVC/CVV/CID"
+msgstr "Bitte geben Sie eine gültige CVC/CVV/CID"
+
+msgid "Payment access key"
+msgstr "Zahlungs-Zugriffsschlüssel"
+
+msgid "Your account details are invalid"
+msgstr "Ihre Kontodaten sind ungültig."
+
+msgid "Authentication code"
+msgstr "Authentifizierungscode"
+
+msgid "Select a Tariff ID to match the preferred tariff plan you created at the Novalnet Admin Portal for this project"
+msgstr "Wählen Sie eine Tarif-ID, die dem bevorzugten Tarifplan entspricht, den Sie im Novalnet Admin-Portal für dieses Projekt erstellt haben"
+
+msgid "Please transfer the amount to the below mentioned account details of our payment processor Novalnet"
+msgstr "Überweisen Sie bitte den Betrag an die unten aufgeführte Bankverbindung unseres Zahlungsdienstleisters Novalnet."
+
+msgid "Account holder"
+msgstr "Kontoinhaber"
+
+msgid "Your account will be debited upon the order submission"
+msgstr "Ihr Konto wird nach Abschicken der Bestellung belastet."
+
+msgid "The payment will be processed in the test mode therefore amount for this transaction will not be charged"
+msgstr "Die Zahlung wird im Testmodus durchgeführt, daher wird der Betrag für diese Transaktion nicht eingezogen."
+
+msgid "Referrer ID"
+msgstr "Partner-ID"
+
+msgid "Enter the referrer ID of the person/company who recommended you Novalnet"
+msgstr "Geben Sie die Partner-ID der Person / des Unternehmens ein, welche / welches Ihnen Novalnet empfohlen hat."
+
+msgid "Enter the number of days to transfer the payment amount to Novalnet (must be greater than 7 days). In case if the field is empty, 14 days will be set as due date by default"
+msgstr "Geben Sie die Anzahl der Tage ein, binnen derer die Zahlung bei Novalnet eingehen soll (muss größer als 7 Tage sein). Falls dieses Feld leer ist, werden 14 Tage als Standard-Zahlungsfrist gesetzt."
+
+msgid "Novalnet Global Configuration"
+msgstr "Novalnet Haupteinstellungen"
+
+msgid "Notification / Webhook URL Setup"
+msgstr "Benachrichtigungs- / Webhook-URL festlegen"
+
+msgid "E-mail address (To)"
+msgstr "Emailadresse (An)"
+
+msgid "Enable E-mail notification for callback"
+msgstr "Email-Benachrichtigung für Callback aktivieren"
+
+msgid "Order completion status"
+msgstr "Abschluss-Status der Bestellung"
+
+msgid "Callback order status"
+msgstr "Callback-Bestellstatus"
+
+msgid "Notification for the buyer"
+msgstr "Benachrichtigung des Käufers"
+
+msgid "Order status for the pending payment"
+msgstr "Bestellstatus der ausstehenden Zahlung"
+
+msgid "While redirecting some data has been changed. The hash check failed."
+msgstr "Während der Umleitung wurden einige Daten geändert. Die Überprüfung des Hashes schlug fehl."
+
+msgid "After the successful verification, you will be redirected to Novalnet secure order page to proceed with the payment"
+msgstr "Nach der erfolgreichen Überprüfung werden Sie auf die abgesicherte Novalnet-Bestellseite umgeleitet, um die Zahlung fortzusetzen."
+
+msgid "You will be redirected to Sofort. Please don’t close or refresh the browser until the payment is completed."
+msgstr "Sie werden zu Sofortüberweisung weitergeleitet. Um eine erfolgreiche Zahlung zu gewährleisten, darf die Seite nicht geschlossen oder neu geladen werden, bis die Bezahlung abgeschlossen ist"
+
+msgid "You will be redirected to iDEAL. Please don’t close or refresh the browser until the payment is completed."
+msgstr "Sie werden zu iDEAL weitergeleitet. Um eine erfolgreiche Zahlung zu gewährleisten, darf die Seite nicht geschlossen oder neu geladen werden, bis die Bezahlung abgeschlossen ist"
+
+msgid "You will be redirected to eps. Please don’t close or refresh the browser until the payment is completed."
+msgstr "Sie werden zu eps weitergeleitet. Um eine erfolgreiche Zahlung zu gewährleisten, darf die Seite nicht geschlossen oder neu geladen werden, bis die Bezahlung abgeschlossen ist"
+
+msgid "You will be redirected to giropay. Please don’t close or refresh the browser until the payment is completed."
+msgstr "Sie werden zu giropay weitergeleitet. Um eine erfolgreiche Zahlung zu gewährleisten, darf die Seite nicht geschlossen oder neu geladen werden, bis die Bezahlung abgeschlossen ist"
+
+msgid "You will be redirected to PayPal. Please don’t close or refresh the browser until the payment is completed."
+msgstr "Sie werden zu PayPal weitergeleitet. Um eine erfolgreiche Zahlung zu gewährleisten, darf die Seite nicht geschlossen oder neu geladen werden, bis die Bezahlung abgeschlossen ist"
+
+msgid "You will be redirected to Przelewy24. Please don’t close or refresh the browser until the payment is completed."
+msgstr "Sie werden zu Przelewy24 weitergeleitet. Um eine erfolgreiche Zahlung zu gewährleisten, darf die Seite nicht geschlossen oder neu geladen werden, bis die Bezahlung abgeschlossen ist"
+
+msgid "You will be redirected to Bancontact. Please don’t close or refresh the browser until the payment is completed."
+msgstr "Sie werden zu Bancontact weitergeleitet. Um eine erfolgreiche Zahlung zu gewährleisten, darf die Seite nicht geschlossen oder neu geladen werden, bis die Bezahlung abgeschlossen ist"
+
+msgid "CVC/CVV/CID"
+msgstr "CVC/CVV/CID"
+
+msgid "Account holder:"
+msgstr "Kontoinhaber:"
+
+msgid "The entered text will be displayed on the checkout page"
+msgstr "Der eingegebene Text wird auf der Checkout-Seite angezeigt."
+
+msgid "The payment details will be filled automatically in the payment form during the checkout process"
+msgstr "Die Zahlungsdetails werden automatisch während des Checkout-Vorgangs in das Zahlungsformular eingetragen."
+
+msgid "Please note: This information will be displayed on other than the Subscription payments."
+msgstr "Bitte beachten: Diese Information wird für alle Zahlungen außer Abonnement-Zahlungen angezeigt."
+
+msgid "Please use the following payment reference for your money transfer, as only through this way your payment is matched and assigned to the order:"
+msgstr "Bitte verwenden Sie nun der unten angegebenen Verwendungszweck für die Überweisung, da nur so Ihr Geldeingang zugeordnet werden kann:"
+
+msgid "Please use any one of the following references as the payment reference, as only through this way your payment is matched and assigned to the order:"
+msgstr "Bitte verwenden Sie einen der unten angegebenen Verwendungszwecke für die Überweisung, da nur so Ihr Geldeingang zugeordnet werden kann:"
+
+msgid "Product activation key"
+msgstr "Aktivierungsschlüssel des Produkts"
+
+msgid "Enter Novalnet Product activation key"
+msgstr "Novalnet-Aktivierungsschlüssel für das Produkt eingeben"
+
+msgid "Number of days given to the buyer to transfer the amount to Novalnet (must be greater than 7 days). If this field is left blank, 14 days will be set as due date by default."
+msgstr "Anzahl der Tage, die der Käufer Zeit hat, um den Betrag an Novalnet zu überweisen (muss mehr als 7 Tage betragen). Wenn Sie dieses Feld leer lassen, werden standardmäßig 14 Tage als Fälligkeitsdatum festgelegt."
+
+msgid "Notification / Webhook URL"
+msgstr "Benachrichtigungs- / Webhook-URL"
+
+msgid "IBAN"
+msgstr "IBAN"
+
+msgid "You need to be at least 18 years old"
+msgstr "Sie müssen mindestens 18 Jahre alt sein."
+
+msgid "Your date of birth"
+msgstr "Ihr Geburtsdatum"
+
+msgid "Your credit card details are invalid"
+msgstr "Ihre Kreditkartendaten sind ungültig."
+
+msgid "Card holder name"
+msgstr "Name des Karteninhabers"
+
+msgid "Expiry date"
+msgstr "Ablaufdatum"
+
+msgid "Card number"
+msgstr "Kreditkartennummer"
+
+msgid "Input"
+msgstr "Eingabe"
+
+msgid "CSS Text"
+msgstr "Text für das CSS"
+
+msgid "Payment guarantee configuration"
+msgstr "Einstellungen für die Zahlungsgarantie"
+
+msgid "Enable payment guarantee"
+msgstr "Zahlungsgarantie aktivieren"
+
+msgid "Minimum order amount"
+msgstr "Mindestbestellbetrag"
+
+msgid "Minimum order amount to display the selected payment method (s) at during checkout"
+msgstr "Mindestbestellsumme zur Anzeige der ausgewählten Zahlungsart(en) im Checkout"
+
+msgid "Force Non-Guarantee payment"
+msgstr "Zahlung ohne Zahlungsgarantie erzwingen"
+
+msgid "Please fill in all the mandatory fields"
+msgstr "Füllen Sie bitte alle Pflichtfelder aus"
+
+msgid "Select Novalnet tariff ID"
+msgstr "Novalnet-Tarif-ID auswählen."
+
+msgid "E-Mail address of the recipient"
+msgstr "Emailadresse des Empfängers"
+
+msgid "You must configure the webhook endpoint in your <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin portal</a>. This will allow you to receive notifications about the transaction"
+msgstr "Sie müssen die folgende Webhook-URL im <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin-Portal</a> hinzufügen. Dadurch können Sie Benachrichtigungen über den Transaktionsstatus erhalten"
+
+
+msgid "Custom CSS settings"
+msgstr "Angepasste CSS-Einstellungen"
+
+msgid "CSS settings for iframe form"
+msgstr "CSS-Einstellungen für den iFrameformular"
+
+msgid "Payment guarantee requirements:"
+msgstr "Voraussetzungen für die Zahlungsgarantie:"
+
+msgid "Your credit/debit card will be charged immediately after the order is completed"
+msgstr "Ihre Karte wird nach Bestellabschluss sofort belastet"
+
+
+msgid "Even if payment guarantee is enabled, payments will still be processed as non-guarantee payments if the payment guarantee requirements are not met. Review the requirements under 'Enable Payment Guarantee' in the Installation Guide."
+msgstr "Falls die Zahlungsgarantie zwar aktiviert ist, jedoch die Voraussetzungen für Zahlungsgarantie nicht erfüllt sind, wird die Zahlung ohne Zahlungsgarantie verarbeitet. Die Voraussetzungen finden Sie in der Installationsanleitung unter 'Zahlungsgarantie aktivieren'"
+
+msgid "Minimum order amount for payment guarantee (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)"
+msgstr "Mindestbestellbetrag für Zahlungsgarantie (in der kleinsten Währungseinheit, z.B. 100 Cent = entsprechen 1.00 EUR)"
+
+msgid "Maximum order amount (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)"
+msgstr "Maximaler Bestellbetrag (in der kleinsten Währungseinheit, z.B. 100 Cent = entsprechen 1.00 EUR)"
+
+msgid "Number of days after which the payment is debited (must be between 2 and 14 days)."
+msgstr "Geben Sie die Anzahl der Tage ein, nach denen der Zahlungsbetrag eingezogen werden soll (muss zwischen 2 und 14 Tagen liegen)."
+
+msgid "You will receive an e-mail with the Novalnet account details to complete the payment"
+msgstr "Sie erhalten eine E-Mail mit den Bankdaten von Novalnet, um die Zahlung abzuschließen."
+
+msgid "This payment method is unavailable, because the basic conditions for this payment haven’t been met. / The payment cannot be processed, because the basic requirements haven’t been met."
+msgstr "Diese Zahlungsart ist nicht verfügbar, weil die grundlegenden Bedingungen für diese Zahlungsart nicht erfüllt wurden. / Die Zahlung kann nicht verarbeitet werden, weil die grundlegenden Anforderungen nicht erfüllt wurden."
+
+msgid "Once you`ve submitted the order, you will receive an e-mail with account details to make payment"
+msgstr "Nachdem Sie die Bestellung abgeschickt haben, erhalten Sie eine Email mit den Bankdaten, um die Zahlung durchzuführen."
+
+msgid "Please don’t close the browser after successful payment, until you have been redirected back to the Shop"
+msgstr "Bitte schließen Sie den Browser nach der erfolgreichen Zahlung nicht, bis Sie zum Shop zurückgeleitet wurden."
+
+msgid "Refund has been initiated for the TID: @orgtid with the amount @amt . New tid:@tid"
+msgstr "Die Rückerstattung für die TID: @orgtid  mit dem Betrag @amt wurde veranlasst"
+
+
+msgid  "Refund has been initiated for the TID:@orgtid with the amount @amt"
+msgstr "Die Rückerstattung für die TID @orgtid mit dem Betrag @amt"
+
+msgid "Transaction updated successfully for the TID @tid  with amount @amt and due date @date"
+msgstr "Transaktion mit TID @tid und Betrag @amt und neues Fälligkeitsdatum: @date"
+
+msgid "Transaction updated successfully for the TID @tid  with amount @amt"
+msgstr "Transaktion mit TID @tid und Betrag @amt wurde am um erfolgreich"
+
+msgid "Novalnet Callback Script executed successfully for the TID: @tid with amount @amount on @date."
+msgstr "Novalnet-Callback-Skript erfolgreich ausgeführt für die TID: @tid mit dem Betrag am @amount, um @date Uhr."
+
+msgid "The transaction has been canceled due to:@tid"
+msgstr "Die Transaktion wurde storniert. Grund:@tid"
+
+msgid "Transaction has been updated succesfully for the tid @tid on @date & @time"
+msgstr "Transaktion mit TID @tid wurde am @date um @time erfolgreich aktualisiert"
+
+msgid "Novalnet Callback Script executed successfully for the TID: @stid with amount @amount on @date. Please refer PAID transaction in our Novalnet Merchant Administration with the TID: @tid"
+msgstr "Novalnet-Callback-Skript erfolgreich ausgeführt für die TID: @stid mit dem Betrag @amount am , um @date Uhr. Bitte suchen Sie nach der bezahlten Transaktion in unserer Novalnet-Händleradministration mit der TID: @tid."
+
+msgid "The amount of @amount for the order @order has been paid. Please verify received amount and TID details, and update the order status accordingly."
+msgstr "Der Betrag von @amount für die Bestellung @order wurde bezahlt. Überprüfen Sie bitten den erhaltenen Betrag und die Details zur TID und aktualisieren Sie den Status der Bestellung entsprechend."
+
+msgid " Chargeback executed successfully for the TID: @stid amount: @amount on @date The subsequent TID: @tid."
+msgstr "Chargeback erfolgreich importiert für die TID: @stid Betrag: @amount am @date  Uhr. TID der Folgebuchung: @tid"
+
+msgid "This is processed as a guarantee payment"
+msgstr "Diese Transaktion wird mit Zahlungsgarantie verarbeitet"
+
+msgid "Due date: @due_date"
+msgstr "Fälligkeitsdatum: @due_date"
+
+msgid "Account holder: @comp"
+msgstr "Kontoinhaber: @comp"
+
+msgid "Amount: @amount"
+msgstr "Betrag: @amount"
+
+msgid "Payment Reference"
+msgstr "Verwendungszweck"
+
+msgid "The payment cannot be processed, because the basic requirements haven’t been met."
+msgstr "Die Zahlung kann nicht verarbeitet werden, weil die grundlegenden Anforderungen nicht erfüllt wurden."
+
+msgid "Payment Reference @reference: "
+msgstr "Verwendungszweck @reference: "
+
+msgid "Slip expiry date: "
+msgstr "Verfallsdatum des Zahlscheins: "
+
+msgid "Store(s) near you"
+msgstr "Barzahlen-Partnerfiliale in Ihrer Nähe"
+
+msgid "Slip expiry date (in days)"
+msgstr "Verfallsdatum des Zahlscheins (in Tagen)"
+
+msgid "Payment was not successful. An error occurred"
+msgstr "Die Zahlung war nicht erfolgreich. Ein Fehler trat auf"
+
+msgid "Number of days given to the buyer to pay at a store. If this field is left blank, 14 days will be set as slip expiry date by default."
+msgstr "Anzahl der Tage, die der Käufer Zeit hat, um den Betrag in einer Filiale zu bezahlen. Wenn Sie dieses Feld leer lassen, ist der Zahlschein standardmäßig 14 Tage lang gültig."
+
+msgid "Inline form: The following fields will be shown in the checkout in two lines: card holder & credit card number / expiry date / CVC"
+msgstr "Inline-Formular: Die folgenden Felder werden im Checkout in zwei Zeilen angezeigt: Karteninhaber & Kreditkartennummer / Ablaufdatum / CVC"
+
+msgid "By enabling this option, all payments from cards issued outside the EU will be authenticated via 3DS 2.0 SCA."
+msgstr "Wenn Sie diese Option aktivieren, werden alle Zahlungen mit Karten, die außerhalb der EU ausgegeben wurden, mit der starken Kundenauthentifizierung (Strong Customer Authentication, SCA) von 3D-Secure 2.0 authentifiziert."
+
+msgid "On successful checkout, you will receive a payment slip/SMS to pay your online purchase at one of our retail partners (e.g. supermarket)"
+msgstr "Nach erfolgreichem Bestellabschluss erhalten Sie einen Zahlschein bzw. eine SMS. Damit können Sie Ihre Online-Bestellung bei einem unserer Partner im Einzelhandel (z.B. Drogerie, Supermarkt etc.)"
+
+msgid "Your order is under verification and once confirmed, we will send you our bank details to where the order amount should be transferred. Please note that this may take upto 24 hours."
+msgstr "Ihre Bestellung ist unter Bearbeitung. Sobald diese bestätigt wurde, erhalten Sie alle notwendigen Informationen zum Ausgleich der Rechnung. Wir bitten Sie zu beachten, dass dieser Vorgang bis zu 24 Stunden andauern kann."
+
+msgid "Order Confirmation - Your Order @order_no with @shop_name has been confirmed!"
+msgstr "Bestellbestätigung – Ihre Bestellung @order_no bei @shop_name wurde bestätigt!"
+
+msgid "We are pleased to inform you that your order has been confirmed."
+msgstr "Wir freuen uns Ihnen mitteilen zu können, dass Ihre Bestellung bestätigt wurde."
+
+msgid "This setting will override the default setting made in the minimum order amount. Note: Minimum amount should be greater than or equal to 9,99 EUR."
+msgstr "Diese Einstellung überschreibt die Standardeinstellung für den Mindest-Bestellbetrag. Anmerkung: der Mindest-Bestellbetrag sollte größer oder gleich 9,99 EUR sein."
+
+msgid "Enter the minimum amount (in cents) for the transaction to be processed with payment guarantee. For example, enter 100 which is equal to 1,00. By default, the amount will be 9,99 EUR"
+msgstr "Geben Sie den Mindestbetrag (in Cent) für die zu bearbeitende Transaktion mit Zahlungsgarantie ein. Geben Sie z.B. 100 ein, was 1,00 entspricht. Der Standbetrag ist 9,99 EUR"
+
+msgid "The amount will be debited from your account by Novalnet"
+msgstr "Der Betrag wird durch Novalnet von Ihrem Konto abgebucht"
+
+msgid "The transaction has been canceled on @date @time"
+msgstr "Die Transaktion wurde am @date um @time Uhr storniert"
+
+msgid "The transaction has been confirmed on @date @time"
+msgstr "Die Buchung wurde am @date um @time Uhr storniert"
+
+msgid "The transaction has been updated succesfully for the tid @tid on @date @time"
+msgstr "The transaction has been updated succesfully for the tid @tid on @date @time'"
+
+msgid "The transaction status has been changed from pending to on hold for the TID: @tid on @date @time."
+msgstr "Der Status der Transaktion mit der TID: @tid wurde am @date um @time Uhr  von ausstehend auf ausgesetzt geändert."
+
+msgid "Enable logos"
+msgstr "Logos aktivieren"
+
+msgid "Payment Action"
+msgstr "Aktion für vom Besteller autorisierte Zahlungen"
+
+msgid "Enforce 3D secure payment outside EU"
+msgstr "3D-Secure-Zahlungen außerhalb der EU erzwingen"
+
+msgid "Capture"
+msgstr "Zahlung autorisieren"
+
+msgid "Authorize"
+msgstr "Zahlung einziehen"
+
+msgid "The payment cannot be processed, because the basic requirements for the payment guarantee haven't been met<br>"
+msgstr "Die Zahlung kann nicht verarbeitet werden, da die grundlegenden Anforderungen für die Zahlungsgarantie nicht erfüllt wurden"
+
+msgid "The shipping address must be the same as the billing address<br>"
+msgstr "Die Lieferadresse muss mit der Rechnungsadresse übereinstimmen)"
+
+msgid "Only Germany, Austria or Switzerland are allowed<br>"
+msgstr "Als Land ist nur Deutschland, Österreich oder Schweiz erlaubt<br>"
+
+msgid "Only EUR currency allowed<br>"
+msgstr "Als Währung ist nur EUR erlaubt<br>"
+
+msgid "Minimum order amount must be<br>"
+msgstr "Der Mindestbestellwert beträgt"
+
+msgid "Please enter your date of birth"
+msgstr "Geben Sie bitte Ihr Geburtsdatum ein"
+
+msgid "The amount is invalid"
+msgstr "Ungültiger Betrag"
+
+msgid "The minimum amount should be at least 9,99 EUR"
+msgstr "Der Mindestbetrag sollte bei mindestens 9,99 EUR"
+
+msgid "New"
+msgstr "Neu"
+
+msgid "Pending"
+msgstr "Ausstehend"
+
+msgid "Completed"
+msgstr "Abgeschlossen"
+
+msgid "Partially refunded"
+msgstr "Teilweise erstattet"
+
+msgid "Refunded"
+msgstr "Erstattet"
+
+msgid "Canceled"
+msgstr "Storniert"
+
+msgid "Order status for the pending Guaranteed payment"
+msgstr "Bestellstatus für die ausstehende Zahlung mit Zahlungsgarantie"
+
+msgid "I hereby grant the mandate for the SEPA direct debit (electronic transmission) and confirm that the given bank details are correct."
+msgstr "Ich erteile hiermit das SEPA-Lastschriftmandat (elektronische Übermittlung) und bestätige, dass die Bankverbindung korrekt ist."
+
+msgid "I authorise (A) Novalnet AG to send instructions to my bank to debit my account and (B) my bank to debit my account in accordance with the instructions from Novalnet AG.<br><br><strong>Creditor identifier: DE53ZZZ00000004253</strong><br><br<strong>Note:</strong> You are entitled to a refund from your bank under the terms and conditions of your agreement with bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited."
+msgstr "Ich ermächtige den Zahlungsempfänger, Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von dem Zahlungsempfänger auf mein Konto gezogenen Lastschriften einzulösen.<br><br><strong>Gläubiger-Identifikationsnummer: DE53ZZZ00000004253</strong><br><br><strong>Hinweis:</strong>  Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen."
+
+msgid "For additional configurations login to Novalnet Merchant Administration portal. To login to the Portal you need to have an account at Novalnet. If you don't have one yet, please contact sales@novalnet.de / tel. +49 (089) 923068320"
+msgstr "Um zusätzliche Einstellungen vorzunehmen, loggen Sie sich in das Novalnet-Händleradministrationsportal ein. Um sich in das Portal einzuloggen, benötigen Sie einen Account bei Novalnet. Falls Sie diesen noch nicht haben, kontaktieren Sie bitte sales@novalnet.de (Tel: +49 (089) 923068320)"
+
+msgid "In case the order amount exceeds the mentioned limit, the transaction will be set on-hold till your confirmation of the transaction. You can leave the field empty if you wish to process all the transactions as on-hold."
+msgstr "Übersteigt der Bestellbetrag das genannte Limit, wird die Transaktion, bis zu ihrer Bestätigung durch Sie, auf on hold gesetzt. Sie können das Feld leer lassen, wenn Sie möchten, dass alle Transaktionen als on hold behandelt werden."
+
+msgid "Onhold order status"
+msgstr "On-hold-Bestellstatus"
+
+msgid "To use the PayPal payment method please enter your PayPal API details in <a href='https://admin.novalnet.de' target='_blank'>Novalnet Merchant Administration portal</a>"
+msgstr "Um die Zahlungsart PayPal zu verwenden, geben Sie bitte Ihre PayPal-API-Daten in das <a href='@admin_url'>Novalnet-Händleradministrationsportal</a> ein"
+
+msgid "Your product activation key is a unique token for merchant authentication and payment processing. Get your Product activation key from the <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin Portal</a> PROJECT > Choose your project > Shop Parameters > API Signature (Product activation key)"
+msgstr "Ihr Produktaktivierungsschlüssel ist ein eindeutiger Token für die Händlerauthentifizierung und Zahlungsabwicklung. hren Produktaktivierungsschlüssel finden Sie im <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin-Portal</a> PROJEKT > Wählen Sie Ihr Projekt > Shop-Parameter > API-Signatur (Produktaktivierungsschlüssel)"
+
+msgid "Your secret key used to encrypt the data to avoid user manipulation and fraud.Get your Payment access key from the <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin Portal</a> PROJECT > Choose your project > Shop Parameters > Payment access key"
+msgstr "Ihr geheimer Schlüssel zur Verschlüsselung der Daten, um Manipulation und Betrug zu vermeiden Ihren Paymentzugriffsschlüssel finden Sie im <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin-Portal</a> PROJEKT > Wählen Sie Ihr Projekt > Shop-Parameter > Paymentzugriffsschlüssel"
+
+
+msgid "Your order is under verification and we will soon update you with the order status. Please note that this may take upto 24 hours."
+msgstr "Ihre Bestellung wird derzeit überprüft. Wir werden Sie in Kürze über den Bestellstatus informieren. Bitte beachten Sie, dass dies bis zu 24 Stunden dauern kann."
+
+msgid "Cancellation order status"
+msgstr "Bestellstatus für Stornierung"
+
+msgid "Minimum transaction amount for authorization (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)"
+msgstr "Mindesttransaktionsbetrag für die Autorisierung (in der kleinsten Währungseinheit, z.B. 100 Cent = entsprechen 1.00 EUR)"
+
+msgid "In order to use this option you must have billing agreement option enabled in your PayPal account. Please contact your account manager at PayPal."
+msgstr "In order to use this option you must have billing agreement option enabled in your PayPal account. Please contact your account manager at PayPal."
+
+msgid "Please read the Installation Guide before you start and login to the <a href='https://admin.novalnet.de/' target='_blank'>Novalnet Admin Portal</a> using your merchant account. To get a merchant account, mail to <a href='mailto:sales@novalnet.de'>sales@novalnet.de</a> or call +49 (089) 923068320."
+msgstr "Bevor Sie beginnen, lesen Sie bitte die Installationsanleitung und melden Sie sich mit Ihrem Händlerkonto im <a href='https://admin.novalnet.de/' target='_blank'>Novalnet Admin-Portal</a> an. Um ein Händlerkonto zu erhalten, senden Sie bitte eine E-Mail an <a  href='mailto:sales@novalnet.de'>sales@novalnet.de</a> oder rufen Sie uns unter +49 89 923068320 an."
+
+msgid "Deactivate IP address control (for test purpose only)"
+msgstr "Deaktivieren Sie die IP-Adresskontrolle (nur zu Testzwecken)"
+
+msgid "This option will allow performing a manual execution. Please disable this option before setting your shop to LIVE mode, to avoid unauthorized calls from external parties (excl. Novalnet)."
+msgstr "Diese Option ermöglicht eine manuelle Ausführung. Bitte deaktivieren Sie diese Option, bevor Sie Ihren Shop in den LIVE-Modus schalten, um nicht autorisierte Zugriffe von externen Parteien (außer von Novalnet) zu vermeiden."
+
+msgid "Send e-mail to "
+msgstr "E-Mails senden an "
+
+msgid "Notification / Webhook URL execution messages will be sent to this e-mail"
+msgstr "E-Mail-Benachrichtigungen werden an diese E-Mail-Adresse gesendet"
+
+msgid "On-hold payment action"
+msgstr "Durchführung einer ausgesetzten Zahlung"
+msgid "Allow manual testing of the Notification / Webhook URL"
+msgstr "Manuelles Testen der Benachrichtigungs- / Webhook-URL erlauben"
+
+msgid "Enable this to test the Novalnet Notification / Webhook URL manually. Disable this before setting your shop live to block unauthorized calls from external parties"
+msgstr "Aktivieren Sie diese Option, um die Novalnet-Benachrichtigungs-/Webhook-URL manuell zu testen. Deaktivieren Sie die Option, bevor Sie Ihren Shop liveschalten, um unautorisierte Zugriffe von Dritten zu blockieren"
+
+msgid "Payment logo"
+msgstr "Logo der Zahlungsart"
+
+msgid "Browse logo to be displayed with the payment name"
+msgstr "Wählen Sie das Logo, das zusammen mit dem Namen der Zahlungsart angezeigt wird."
+
+msgid "SEPA payment duration (in days)"
+msgstr "Abstand (in Tagen) bis zum SEPA-Einzugsdatum"
+
+msgid "(In order to use this option you must have billing agreement option enabled in your PayPal account. Please contact your account manager at PayPal.)"
+msgstr "(Um diese Option nutzen zu können, müssen Sie in Ihrem PayPal-Konto die Option Abrechnungsvereinbarung aktiviert haben. Bitte kontaktieren Sie Ihren Kundenbetreuer bei PayPal.)"
+
+msgid "Number of days given to the buyer to transfer the amount to Novalnet (must be between 7 and 28 days). If this field is left blank, 14 days will be set as due date by default."
+msgstr "Anzahl der Tage, die der Käufer Zeit hat, um den Betrag an Novalnet zu überweisen (muss zwischen 7 und 28 Tagen liegen). Wenn Sie dieses Feld leer lassen, werden standardmäßig 14 Tage als Fälligkeitsdatum festgelegt."
+
+msgid "Allowed B2C countries: Germany, Austria, Switzerland"
+msgstr "Erlaubte B2C-Länder: Deutschland, Österreich, Schweiz"
+
+msgid "Allowed B2B countries: European Union'"
+msgstr "Erlaubte B2B-Länder: Europäische Union"
+
+msgid "Allowed currency: €"
+msgstr "Zugelassene Währung: €"
+
+msgid "Minimum order amount: €9,99 or more"
+msgstr "Mindestbetrag der Bestellung: 9,99 € oder mehr"
+
+
+msgid "Age limit: 18 years or more"
+msgstr "Mindestalter: 18 Jahre"
+
+msgid "The billing address must be the same as the shipping address"
+msgstr "Rechnungsadresse und Lieferadresse müssen übereinstimmen"

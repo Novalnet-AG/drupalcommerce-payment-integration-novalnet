@@ -1,0 +1,8 @@
+novalnet_creditcard:
+  js:
+   js/novalnet_creditcard.js: { external: false, attributes: { defer: false, async: false } }
+
+novalnet_sepa:
+  js:
+   https://cdn.novalnet.de/js/v2/NovalnetUtility.js : {}
+   js/novalnet_sepa.js: { external: false, attributes: { defer: false, async: false } }
