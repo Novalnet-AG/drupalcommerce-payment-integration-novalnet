@@ -6,7 +6,7 @@ Novalnet <a href= "https://www.novalnet.de/"> merchant account </a> is required 
 
 Version in the following languages: EN & DE 
 
-Also drupal 8.9.0-8.9.20 and 9.0.0-9.3.3 and commerce 2.25-2.28 are supported by Novalnet. 
+Also drupal 8.9.0-8.9.20 and 9.0.0-9.4.5 and commerce 2.25-2.30 are supported by Novalnet. 
 More information about these can be found <a href= "https://www.novalnet.de/modul/drupalcommerce-payment-module"> here </a>
 
 ## Key features of Drupal Commerce payment module
@@ -51,6 +51,7 @@ For detailed documentation and technical inquiries, please contact <a href="mail
 * PostFinance E-Finance
 * Bancontact
 * Multibanco
+* Online bank transfer
 
 More details about each payment type can be found <a href= "https://www.novalnet.de/zahlungsabwicklung">here</a>. Please contact: <a 
 href="mailto:sales@novalnet.de"> sales@novalnet.de </a> or +49 89 9230683-20 for more information and additional inquiries.
