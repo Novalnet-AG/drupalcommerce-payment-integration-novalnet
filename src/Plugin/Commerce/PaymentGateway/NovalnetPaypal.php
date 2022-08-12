@@ -9,7 +9,7 @@
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\Plugin\Commerce\PaymentGateway;
 
@@ -107,9 +107,8 @@ class NovalnetPaypal extends OffsitePaymentGatewayBase {
       $response = Novalnet::getTransactionDetails($result);
     }
     $response = Json::decode($response);
-    $order_state = ($response['transaction']['status_code'] == 90)?'pending'
-    :($response['transaction']['status_code'] == 85 ?'authorization':'completed');
-    $global_configuration = \Drupal::config('commerce_novalnet.application_settings');
+    $order_state = ($response['transaction']['status_code'] == 90) ? 'pending'
+    : ($response['transaction']['status_code'] == 85 ?'authorization':'completed');
     Novalnet::completeOrder($response, $this->code, $order, $this->configuration['mode']);
     $payment_storage = $this->entityTypeManager->getStorage('commerce_payment');
     $payment = $payment_storage->create([

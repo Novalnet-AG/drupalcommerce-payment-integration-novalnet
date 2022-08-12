@@ -21,27 +21,28 @@ use Drupal\Component\Serialization\Json;
 use Drupal\commerce_novalnet\Novalnet;
 
 /**
- * Provides the Novalnet Ideal payment gateway.
+ * Provides the Novalnet Online Bank Transfer payment gateway.
  *
  * @CommercePaymentGateway(
- *   id = "novalnet_ideal",
- *   label = "iDEAL",
- *   display_label = "iDEAL",
+ *   id = "novalnet_onlinebank_transfer",
+ *   label = "Online Bank Transfer",
+ *   display_label = "Online Bank Transfer",
  *   forms = {
- *     "offsite-payment" = "Drupal\commerce_novalnet\PluginForm\NovalnetIdeal\NovalnetIdealForm",
+ *     "offsite-payment" = "Drupal\commerce_novalnet\PluginForm\NovalnetOnlineBankTransfer\NovalnetOnlineBankTransferForm",
  *   }
+ *
  * )
  */
-class NovalnetIdeal extends OffsitePaymentGatewayBase {
+class NovalnetOnlineBankTransfer extends OffsitePaymentGatewayBase {
 
-  private $code = 'novalnet_ideal';
+  private $code = 'novalnet_onlinebank_transfer';
   /**
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
     return [
       'mode' => 'live',
-      'display_label' => t('iDEAL'),
+      'display_label' => t('Online Bank Transfer'),
     ] + parent::defaultConfiguration();
   }
 
@@ -61,7 +62,6 @@ class NovalnetIdeal extends OffsitePaymentGatewayBase {
     Novalnet::getCommonFields($form, $this->configuration);
     return $form;
   }
-
   /**
    * Validates the element form.
    *
@@ -71,12 +71,11 @@ class NovalnetIdeal extends OffsitePaymentGatewayBase {
    *   The current state of the form.
    */
   public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
-    $result = Novalnet::validateParams();
-    if ($result) {
+   $result = Novalnet::validateParams();
+   if ($result) {
       $form_state->setErrorByName('', t('Please fill in all the mandatory fields'));
     }
   }
-
   /**
    * Submits the element form.
    *
@@ -99,7 +98,7 @@ class NovalnetIdeal extends OffsitePaymentGatewayBase {
   public function onReturn(OrderInterface $order, Request $request) {
     if (!empty($request->request->all())) {
        $result = $request->request->all();
-       $response =Novalnet::getTransactionDetails($result);
+       $response = Novalnet::getTransactionDetails($result);
     }
     else {
       $result = $request->query->all();
@@ -113,8 +112,9 @@ class NovalnetIdeal extends OffsitePaymentGatewayBase {
       'amount'          => $order->getTotalPrice(),
       'payment_gateway' => $this->entityId,
       'order_id'        => $order->id(),
-      'remote_id'       => $response['transaction']['tid'],
+      'remote_id'       => $response['tid'],
       'remote_state'    => $response['transaction']['status'],
+      'remote_id'       => $response['transaction']['tid'],
     ]);
     $order->save();
     $payment->save();
@@ -130,6 +130,7 @@ class NovalnetIdeal extends OffsitePaymentGatewayBase {
     else {
       $result = $request->query->all();
     }
-   Novalnet::cancellation($result, $order->id(), $this->code);
+    Novalnet::cancellation($result, $order->id(), $this->code);
   }
+
 }

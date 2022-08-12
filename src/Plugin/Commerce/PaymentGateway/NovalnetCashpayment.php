@@ -9,7 +9,7 @@
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\Plugin\Commerce\PaymentGateway;
 
@@ -121,10 +121,10 @@ class NovalnetCashpayment extends OnsitePaymentGatewayBase {
     if(!empty($this->configuration['slip_expiry_date'])){
       $request_parameters['transaction']['due_date'] = date('Y-m-d', strtotime('+ ' .$this->configuration['slip_expiry_date']. ' day'));
     }
-    // end of form parm   
+    // end of form parm
     $json_data = json_encode($request_parameters);
     $result = Novalnet::sendRequest($json_data, Novalnet::getPaygateURL('payment'));
-    $response = Json::decode($result);    
+    $response = Json::decode($result);
     if (isset($response['result']['status']) && $response['result']['status_code'] == 100) {
       $payment_storage = $this->entityTypeManager->getStorage('commerce_payment');
       $payment = $payment_storage->create([

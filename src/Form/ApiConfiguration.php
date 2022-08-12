@@ -1,12 +1,12 @@
 <?php
 /**
- * This file provide the global form settings.
+ * This file provides the global configuration form.
  *
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\Form;
 
@@ -254,7 +254,6 @@ class ApiConfiguration extends ConfigFormBase {
          if (!empty($webhook_url)) {
            $langcode = \Drupal::currentUser()->getPreferredLangcode();
            $endpoint = Novalnet::getPaygateURL('apiconfigure');
-           $encoded_key = base64_encode($access_key);
             // Build the headers
             $data = [
                 'merchant'      =>  [

@@ -9,7 +9,7 @@
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\Plugin\Commerce\PaymentGateway;
 
@@ -76,8 +76,8 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
       '#title' => t('Payment due date (in days)'),
       '#default_value' => $this->configuration['novalnet_invoice_due_date'],
       '#description'   => t('Number of days given to the buyer to transfer the amount to Novalnet (must be greater than 7 days). If this field is left blank, 14 days will be set as due date by default.'),
-    ];   
-    Novalnet::getCommonFields($form, $this->configuration);   
+    ];
+    Novalnet::getCommonFields($form, $this->configuration);
     Novalnet::getManualChecklimit($form, $this->configuration);
     Novalnet::getGuaranteeConfiguration($form, $this->code, $this->configuration);
     return $form;
@@ -118,7 +118,7 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
       $values = $form_state->getValue($form['#parents']);
       $this->configuration['notification'] = $values['notification'];
       $this->configuration['novalnet_invoice_due_date'] = $values['novalnet_invoice_due_date'];
-      $this->configuration['transaction_type'] = $values['transaction_type'];      
+      $this->configuration['transaction_type'] = $values['transaction_type'];
       $this->configuration['manual_amount_limit'] = $values['manual_amount_limit'];
       $this->configuration['guarantee_configuration'][$this->code . '_guarantee_payment'] = $values['guarantee_configuration'][$this->code . '_guarantee_payment'];
       $this->configuration['guarantee_configuration'][$this->code . '_guarantee_payment_minimum_order_amount'] = $values['guarantee_configuration'][$this->code . '_guarantee_payment_minimum_order_amount'];
@@ -130,16 +130,16 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
   /**
    * {@inheritdoc}
    */
-  public function createPayment(PaymentInterface $payment, $capture = true) {	
+  public function createPayment(PaymentInterface $payment, $capture = true) {
     $global_configuration = \Drupal::config('commerce_novalnet.application_settings');
-    $payment_method = $payment->getPaymentMethod();   
+    $payment_method = $payment->getPaymentMethod();
     $order_id = \Drupal::routeMatch()->getParameter('commerce_order')->id();
-    $order = Order::load($order_id);     
+    $order = Order::load($order_id);
     if (\Drupal::service('session')->get($this->code . '_guarantee_payment')) {
         Novalnet::checkGuaranteeAddress($order, $this->configuration, $this->code);
     }
     $allow_b2b = $this->configuration['guarantee_configuration'][$this->code . '_allow_b2b_customer'];
-    
+
     // v2 structure based form parameter
     $request_parameters = [];
     $request_parameters['merchant'] = Novalnet::getMerchantData();
@@ -169,10 +169,10 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
     if ($this->configuration['transaction_type'] == 'authorize'
         &&(Novalnet::formatAmount($payment->getAmount()->getNumber()) >= $this->configuration['manual_amount_limit'])) {
         $url = 'authorize';
-    }   
+    }
     $json_data = json_encode($request_parameters);
     $result = Novalnet::sendRequest($json_data, Novalnet::getPaygateURL($url));
-    $response = Json::decode($result);   
+    $response = Json::decode($result);
     if (isset($response['result']['status']) && $response['result']['status_code'] == 100) {
       $order_state = ($response['transaction']['status_code'] == '100') ?(($response['transaction']['payment_type'] == 'GUARANTEED_INVOICE')?'completed':'pending'):
        ($response['transaction']['status_code'] == '91'?'authorization':'pending');
@@ -229,6 +229,12 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
     $this->assertPaymentState($payment, ['pending','authorization']);
     $response = Novalnet::updateTransaction($payment->getRemoteId(), 'cancel');
     if ($response['transaction']['status_code'] == '103') {
+	  $order_id = \Drupal::routeMatch()->getParameter('commerce_order')->id();
+	  $order = Order::load($order_id);
+	  $message = '<br/>' . t('The transaction has been canceled on @date @time', ['@date' => date('Y-m-d'), '@time' => date('H:i:s')]);
+	  $transaction_details = $order->getData('transaction_details')['message'];
+      $order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $message]);
+      $order->save();
       $payment->state = 'voided';
       $payment->save();
     }
@@ -237,6 +243,7 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
   * {@inheritdoc}
   */
   public function capturePayment(PaymentInterface $payment) {
+	$currency_formatter = \Drupal::service('commerce_price.currency_formatter');
     $this->assertPaymentState($payment, ['authorization']);
     $response = Novalnet::updateTransaction($payment->getRemoteId(), 'capture');
     if ($response['transaction']['status_code'] == '100') {
@@ -253,12 +260,16 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
 					  ->execute()
 					  ->fetchAssoc();($order_id);
       $order = Order::load($order_id);
-      $callback_information = '<br/><br/>'.str_replace(t('Please transfer the amount to the below mentioned account details of our payment processor Novalnet'),
-                                 t('Please transfer the amount to the below mentioned account details of our payment processor Novalnet').'<br/>'.
-                                 t('Due date: @due_date', ['@due_date' => $response['transaction']['due_date']]).
-                                 '<br/>', unserialize($order_details['data'])['transaction_details']['message']);
+      $amount = sprintf("%.2f", $response['transaction']['amount']/100);
+      $amount = $currency_formatter->format($amount, $response['transaction']['currency']);
+      $message = t('The transaction has been confirmed on @date, @time', ['@date' => date('Y-m-d'), '@time' => date('H:i:s')]);
+      $message .= '<br/><br/>'.str_replace(t('Please transfer the amount of @amt to the following account' ,['@amt' => $amount]),
+									 t('Please transfer the amount of @amt to the following account' ,['@amt' => $amount]).''.
+									 t(' on or before : @due_date', ['@due_date' => $response['transaction']['due_date']]) .
+									 '<br/>', unserialize($order_details['data'])['transaction_details']['message']);
+
       $transaction_details = $order->getData('transaction_details')['message'];
-      $order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $callback_information]);
+      $order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $message]);
       $order->save();
       $payment->save();
     }
@@ -266,53 +277,58 @@ class NovalnetInvoice extends OnsitePaymentGatewayBase {
        $this->messenger()->addError($response['result']['status_text']);
     }
   }
-  /**
+    /**
    * {@inheritdoc}
    */
-  public function refundPayment(PaymentInterface $payment, Price $amount = NULL) {
-    $this->assertPaymentState($payment, ['completed', 'partially_refunded']);
-    $response = Novalnet::refund($payment->getRemoteId(), $amount->getNumber());
-    $this->assertRefundAmount($payment, $amount);
-    $old_refunded_amount = $payment->getRefundedAmount();
-    $new_refunded_amount = $old_refunded_amount->add($amount);
-    if ($response['transaction']['status_code'] == '100') {
-      if ($new_refunded_amount->lessThan($payment->getAmount())) {
-        $payment->state = 'partially_refunded';
-      }
-     else {
-       $payment->state = 'refunded';
-       $payment->setRefundedAmount($new_refunded_amount);
-       $payment->save();
-     }
-    }
-    elseif ($response['transaction']['status'] == 'DEACTIVATED') {
-      $payment->state = 'voided';
-      $this->messenger()->addError($response['result']['status_text']);
-      $payment->setRefundedAmount($new_refunded_amount);
-      $payment->save();
-    }
-    else {
-      $this->messenger()->addError($response['result']['status_text']);
-    }
-
-  }
+	public function refundPayment(PaymentInterface $payment, Price $amount = NULL) {
+		$this->assertPaymentState($payment, ['completed', 'partially_refunded']);
+		$response = Novalnet::refund($payment->getRemoteId(), $amount->getNumber());
+		if($response['transaction']['status_code'] == '100') { // Success
+			$this->assertRefundAmount($payment, $amount);
+			$old_refunded_amount = $payment->getRefundedAmount();
+			$new_refunded_amount = $old_refunded_amount->add($amount);
+			$payment->state = 'refunded';
+			$order_id = \Drupal::routeMatch()->getParameter('commerce_order')->id();
+			$order = Order::load($order_id);
+			$transaction_details = $order->getData('transaction_details')['message'];
+			$currency_formatter = \Drupal::service('commerce_price.currency_formatter');
+			if ($new_refunded_amount->lessThan($payment->getAmount())) { // If partial refund
+				$payment->state = 'partially_refunded';
+			}
+			if($response['transaction']['status'] == 'DEACTIVATED') { // If transaction deactivated
+				$payment->state = 'voided';
+			}
+			$message = t('Refund has been initiated for the TID: @otid with the amount @amount', ['@otid' => $response['transaction']['tid'], '@amount' => $currency_formatter->format($response['transaction']['refund']['amount']/100, $response['transaction']['refund']['currency'])]);
+			if(!empty($response['transaction']['refund']['tid'])) {
+				$message = t('Refund has been initiated for the TID: @otid with the amount @amount. New TID:@tid for the refunded amount', ['@otid' => $response['transaction']['tid'], '@amount' => $currency_formatter->format($response['transaction']['refund']['amount']/100, $response['transaction']['refund']['currency']), '@tid' => $response['transaction']['refund']['tid']]);
+			}
+			$this->messenger()->addMessage($message, 'status');
+			$order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $message]);
+			$order->save();
+			$payment->setRefundedAmount($new_refunded_amount);
+			$payment->save();
+		}
+		else { // Failure
+			$this->messenger()->addError($response['result']['status_text']);
+		}
+	}
 
   /**
   * {@inheritdoc}
   */
   public function createPaymentMethod(PaymentMethodInterface $payment_method, array $payment_details) {
-	  
-	  
+
+
     $order_id = \Drupal::routeMatch()->getParameter('commerce_order')->id();
     $order = Order::load($order_id);
     $birth_date = isset($_POST['payment_information']['add_payment_method']['payment_details'])
     ? $_POST['payment_information']['add_payment_method']['payment_details']:(isset($_POST['payment_information']['add_payment_method']) ? $_POST['payment_information']['add_payment_method'] : $_POST['add_payment_method']['payment_details']);
-    $message = '';    
-    \Drupal::service('session')->set('payment_details', $birth_date);   
-      if (!empty($birth_date['novalnet_invoice_dob'])) {			 
-	   if (time() < strtotime('+18 years', strtotime($birth_date['novalnet_invoice_dob']))) {		
+    $message = '';
+    \Drupal::service('session')->set('payment_details', $birth_date);
+      if (!empty($birth_date['novalnet_invoice_dob'])) {
+	   if (time() < strtotime('+18 years', strtotime($birth_date['novalnet_invoice_dob']))) {
 		$message .= t('You need to be at least 18 years old').'<br>';
-	  }  
+	  }
 	}
     Novalnet::checkGuaranteeProcess($order, $this->code, $this->configuration,$message);
     $payment_method->setReusable(true);

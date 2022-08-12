@@ -1,12 +1,12 @@
 /**
  * This file process the novalnet cc related process
  *
- * @category   PHP
+ * @category   JS
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 (function ($, Drupal) {
   'use strict';
@@ -21,23 +21,23 @@
 	    var configurationObject = {
 		callback: {
 			// Called once the pan_hash created successfully
-			on_success: function (data) {				
-				if (jQuery("input[name='payment_information[add_payment_method][payment_details][pan_hash]']").html() != undefined) {					
+			on_success: function (data) {
+				if (jQuery("input[name='payment_information[add_payment_method][payment_details][pan_hash]']").html() != undefined) {
 					jQuery("input[name='payment_information[add_payment_method][payment_details][pan_hash]']").val(data['hash']);
 					jQuery("input[name='payment_information[add_payment_method][payment_details][unique_id]']").val(data['unique_id']);
 					jQuery("input[name='payment_information[add_payment_method][payment_details][do_redirect]']").val(data['do_redirect']);
-					jQuery("#commerce-checkout-flow-multistep-default").submit();	
-				} else {					
+					jQuery("#commerce-checkout-flow-multistep-default").submit();
+				} else {
 					jQuery("input[name='add_payment_method[payment_details][pan_hash]']").val(data['hash']);
 					jQuery("input[name='add_payment_method[payment_details][unique_id]']").val(data['unique_id']);
-					jQuery("input[name='add_payment_method[payment_details][do_redirect]']").val(data['do_redirect']);			
+					jQuery("input[name='add_payment_method[payment_details][do_redirect]']").val(data['do_redirect']);
 					jQuery("input[data-drupal-selector='edit-actions-submit']").addClass('submit-add-payment');
-					jQuery(".submit-add-payment").click();					
-				}				
+					jQuery(".submit-add-payment").click();
+				}
 				return true;
 			},
 			// Called in case of an invalid payment data or incomplete input
-			on_error:  function (data) {            
+			on_error:  function (data) {
 				if ( undefined !== data['error_message'] ) {
 					alert(data['error_message']);
 					return false;
@@ -147,7 +147,7 @@
 		// It will control the getPanHash call, if the pan hash value already assigned to pan_hash
 		if(jQuery("input[name='payment_information[add_payment_method][payment_details][pan_hash]']").val() != undefined && jQuery("input[name='payment_information[add_payment_method][payment_details][pan_hash]']").val() == '' || jQuery("input[name='add_payment_method[payment_details][pan_hash]']").val() != undefined && jQuery("input[name='add_payment_method[payment_details][pan_hash]']").val() == '')
 		{
-			
+
 			event.preventDefault();
 			event.stopImmediatePropagation();
 			NovalnetUtility.getPanHash();
@@ -155,14 +155,14 @@
 	},
     };
      $( document ).ready(function () {
-      
-        $("#commerce-checkout-flow-multistep-default").submit(function(){			
+
+        $("#commerce-checkout-flow-multistep-default").submit(function(){
 			 Drupal.behaviors.commerceNovalnetCreditCard.getNovalnetHash();
 		});
-        $(".commerce-payment-add-form").submit(function(){				
+        $(".commerce-payment-add-form").submit(function(){
 			 Drupal.behaviors.commerceNovalnetCreditCard.getNovalnetHash();
 		});
-		
+
 
     });
 })(jQuery, Drupal);

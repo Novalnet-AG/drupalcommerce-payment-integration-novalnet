@@ -1,12 +1,12 @@
 <?php
 /**
- * Contains the Novalnet form description.
+ * Contains the form description.
  *
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\PluginForm\NovalnetSepa;
 
@@ -124,18 +124,35 @@ class NovalnetSepaForm extends BasePaymentMethodAddForm {
       '#id'            => 'novalnet_sepa_iban',
       '#title'         => t('IBAN'),
       '#attributes'    => [
-        'onkeypress'   => 'return NovalnetUtility.formatIban(event)',
-        'onchange'     => 'return NovalnetUtility.formatIban(event)',
+        'onkeypress'   => 'return NovalnetUtility.formatIban(event, "novalnet_sepa_bic_div")',
+        'onkeyup'   => 'return NovalnetUtility.formatIban(event, "novalnet_sepa_bic_div")',
+        'onchange'     => 'return NovalnetUtility.formatIban(event, "novalnet_sepa_bic_div")',
         'autocomplete' => 'off',
         'style'        => 'text-transform: uppercase;',
       ],
       '#required' => true,
     ];
+    $element['novalnet_sepa_bic_container'] = [
+	  '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+		'id' => 'novalnet_sepa_bic_div',
+		'style' => 'display:none;'
+      ]
+    ];
+    $element['novalnet_sepa_bic_container']['novalnet_sepa_bic'] = [
+		  '#type'          => 'textfield',
+		  '#id'            => 'novalnet_sepa_bic',
+		  '#title'         => t('BIC'),
+		  '#attributes'    => [
+			'onkeypress'   => 'return NovalnetUtility.formatBic(event)',
+		  ]
+    ];
    $allow_b2b = $this->entity->getPaymentGateway()->get('configuration')['guarantee_configuration']['novalnet_sepa_allow_b2b_customer'];
    $company = !empty($address['organization']) ? $address['organization'] : '';
    if ($this->entity->getPaymentGateway()->get('configuration')['guarantee_configuration']['novalnet_sepa_guarantee_payment'] == 1) {
      if ((empty($company) && $allow_b2b == 1) || $allow_b2b == 0) {
-       
+
         $element['novalnet_sepa_dob'] = [
               '#type'        => 'textfield',
               '#id'          => 'novalnet_sepa_dob',
@@ -143,9 +160,9 @@ class NovalnetSepaForm extends BasePaymentMethodAddForm {
               '#placeholder' => 'DD.MM.YYYY',
               '#attributes'  => [
                'onkeypress'   => 'return NovalnetUtility.isNumericBirthdate( this,event )',
-			   'onchange'     => 'return NovalnetUtility.isNumericBirthdate( this,event )',			
+			   'onchange'     => 'return NovalnetUtility.isNumericBirthdate( this,event )',
                'onkeydown'  => 'return NovalnetUtility.isNumericBirthdate( this,event )',
-              ],                
+              ],
               '#required'    => true,
            ];
      }

@@ -8,14 +8,14 @@
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
  * @version    1.2.0
  */
-namespace Drupal\commerce_novalnet\PluginForm\NovalnetEps;
+namespace Drupal\commerce_novalnet\PluginForm\NovalnetOnlineBankTransfer;
 
 use Drupal\commerce_payment\PluginForm\PaymentOffsiteForm as BasePaymentOffsiteForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_novalnet\Novalnet;
 
-class NovalnetEpsForm extends BasePaymentOffsiteForm {
+class NovalnetOnlineBankTransferForm extends BasePaymentOffsiteForm {
   /**
    * {@inheritdoc}
    */
@@ -28,9 +28,9 @@ class NovalnetEpsForm extends BasePaymentOffsiteForm {
     $request_parameters = [];
     $configuration = $this->entity->getPaymentGateway()->get('configuration');
     $request_parameters['merchant'] = Novalnet::getMerchantData();
-    $request_parameters['customer'] = Novalnet::getCustomerData($order,'novalnet_eps');
-    $request_parameters['transaction'] =Novalnet::getTransactionData($order,'novalnet_eps', $payment, $configuration);
-    $request_parameters['transaction']['payment_type'] = Novalnet::getPaymentType('novalnet_eps');
+    $request_parameters['customer'] = Novalnet::getCustomerData($order,'novalnet_onlinebank_transfer');
+    $request_parameters['transaction'] = Novalnet::getTransactionData($order,'novalnet_onlinebank_transfer', $payment, $configuration);
+    $request_parameters['transaction']['payment_type'] = Novalnet::getPaymentType('novalnet_onlinebank_transfer');
     $request_parameters['custom'] = ['lang' => strtoupper(\Drupal::languageManager()->getCurrentLanguage()->getId()),];
     $json_data = json_encode($request_parameters);
     $result = Novalnet::sendRequest($json_data, Novalnet::getPaygateURL('payment'));

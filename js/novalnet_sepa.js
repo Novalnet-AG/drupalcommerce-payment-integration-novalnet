@@ -1,12 +1,12 @@
 /**
  * This file will handle mandate information popup
  *
- * @category   PHP
+ * @category   JS
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 
 (function ($, Drupal) {

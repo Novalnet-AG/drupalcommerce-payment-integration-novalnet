@@ -20,7 +20,7 @@
     invoice_guarantee_payment:
       type: boolean
       label: 'Enable payment guarantee'
-      translatable: true      
+      translatable: true
     invoice_guarantee_payment_minimum_order_amount:
       type: string
       label: 'Minimum order amount (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)'
@@ -50,7 +50,7 @@ commerce_payment.commerce_payment_gateway.plugin.novalnet_sepa:
       translatable: true
     novalnet_sepa_guarantee_payment:
       type: boolean
-      label: 'Enable payment guarantee'  
+      label: 'Enable payment guarantee'
       translatable: true
     novalnet_sepa_guarantee_payment_minimum_order_amount:
       type: string
@@ -121,6 +121,13 @@ commerce_payment.commerce_payment_gateway.plugin.novalnet_cc:
       label: 'CSS Text'
       translatable: true
 commerce_payment.commerce_payment_gateway.plugin.novalnet_sofort:
+  type: commerce_payment_gateway_configuration
+  mapping:
+    notification:
+      type: string
+      label: 'Notification for the buyer'
+      translatable: true
+commerce_payment.commerce_payment_gateway.plugin.novalnet_onlinebank_transfer:
   type: commerce_payment_gateway_configuration
   mapping:
     notification:

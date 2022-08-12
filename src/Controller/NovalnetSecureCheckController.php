@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains the Novalnet cc3d secure related process.
+ * Contains the 3D secure related process.
  *
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.com/payment-plugins/free/license
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\Controller;
 
@@ -45,7 +45,7 @@ class NovalnetSecureCheckController {
     /** @var \Drupal\commerce_checkout\Entity\CheckoutFlowInterface $checkout_flow */
     $checkout_flow = $commerce_order->checkout_flow->entity;
     $checkout_flow_plugin = $checkout_flow->getPlugin();
-    try {		
+    try {
       $payment_gateway_plugin->onSecurityCheckReturn($commerce_order, $response);
       $redirect_step = $checkout_flow_plugin->getNextStepId('payment');
     }

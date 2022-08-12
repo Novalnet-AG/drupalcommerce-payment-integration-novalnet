@@ -1,12 +1,17 @@
 *** Changelog ***
 
+= 1.2.0 - 2022.08.12 =
+* New      - Implemented Online bank transfer payment
+* Enhanced - For IBAN-specific countries, the BIC field displayed for payment like Direct Debit SEPA and Direct Debit SEPA with payment guarantee
+* Enhanced - Callback/Webhook has been optimized as per the new testcase
+* Enhanced - Updated payment logo for Sofort payment
+
 = 1.1.0 - 2022.01.21 =
 * New 		  - Order creation process handled from the shop backend
 * Fix 		  - Drupal 9 compatibility has been checked for PHP 8 version
 * Fix 		  - Amount mismatched during Credit Card authentication process
 * Enhanced  - Payment module supports for both drupal 8 and drupal 9
 * Enhanced  - Novalnet payment module has been optimized as per new testcase
-
 
 = 1.0.0 - 2021.11.03 =
 * New Release: Payment module developement for Drupal 9 with additional payment methods integration, enhanced features with better usability.

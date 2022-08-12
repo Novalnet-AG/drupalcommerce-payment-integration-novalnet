@@ -9,7 +9,7 @@
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\Plugin\Commerce\PaymentGateway;
 
@@ -148,26 +148,35 @@ class NovalnetMultibanco extends OnsitePaymentGatewayBase {
   /**
    * {@inheritdoc}
    */
-  public function refundPayment(PaymentInterface $payment, Price $amount = NULL) {
-    $this->assertPaymentState($payment, ['completed', 'partially_refunded']);
-    $response = Novalnet::refund($payment->getRemoteId(), $amount->getNumber());
-    if ($response['transaction']['status_code'] == '100') {
-      $this->assertRefundAmount($payment, $amount);
-      $old_refunded_amount = $payment->getRefundedAmount();
-      $new_refunded_amount = $old_refunded_amount->add($amount);
-      if ($new_refunded_amount->lessThan($payment->getAmount())) {
-        $payment->state = 'partially_refunded';
-      }
-      else {
-        $payment->state = 'refunded';
-      }
-      $payment->setRefundedAmount($new_refunded_amount);
-      $payment->save();
-     }
-    else {
-     $this->messenger()->addError($response['result']['status_text']);
-    }
-  }
+	public function refundPayment(PaymentInterface $payment, Price $amount = NULL) {
+		$this->assertPaymentState($payment, ['completed', 'partially_refunded']);
+		$response = Novalnet::refund($payment->getRemoteId(), $amount->getNumber());
+		if($response['transaction']['status_code'] == '100') { // Success
+			$this->assertRefundAmount($payment, $amount);
+			$old_refunded_amount = $payment->getRefundedAmount();
+			$new_refunded_amount = $old_refunded_amount->add($amount);
+			$payment->state = 'refunded';
+			$order_id = \Drupal::routeMatch()->getParameter('commerce_order')->id();
+			$order = Order::load($order_id);
+			$transaction_details = $order->getData('transaction_details')['message'];
+			$currency_formatter = \Drupal::service('commerce_price.currency_formatter');
+			if ($new_refunded_amount->lessThan($payment->getAmount())) { // If partial refund
+				$payment->state = 'partially_refunded';
+			}
+			$message = t('Refund has been initiated for the TID: @otid with the amount @amount', ['@otid' => $response['transaction']['tid'], '@amount' => $currency_formatter->format($response['transaction']['refund']['amount']/100, $response['transaction']['refund']['currency'])]);
+			if(!empty($response['transaction']['refund']['tid'])) {
+				$message = t('Refund has been initiated for the TID: @otid with the amount @amount. New TID:@tid for the refunded amount', ['@otid' => $response['transaction']['tid'], '@amount' => $currency_formatter->format($response['transaction']['refund']['amount']/100, $response['transaction']['refund']['currency']), '@tid' => $response['transaction']['refund']['tid']]);
+			}
+			$this->messenger()->addMessage($message, 'status');
+			$order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $message]);
+			$order->save();
+			$payment->setRefundedAmount($new_refunded_amount);
+			$payment->save();
+		}
+		else { // Failure
+			$this->messenger()->addError($response['result']['status_text']);
+		}
+	}
   /**
    * {@inheritdoc}
    */

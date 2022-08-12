@@ -1,12 +1,12 @@
 <?php
 /**
- * Contains the Novalnet helper functions.
+ * Contains the helper functions.
  *
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 
 namespace Drupal\commerce_novalnet;
@@ -23,10 +23,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 class Novalnet {
 
   private static $redirectPayments = ['novalnet_paypal', 'novalnet_ideal', 'novalnet_giropay',
-    'novalnet_eps', 'novalnet_przelewy24', 'novalnet_sofort','novalnet_bancontact','novalnet_postfinance','novalnet_postfinancecard'
-  ];
-  private static $dataParams = ['auth_code', 'product', 'tariff', 'amount',
-    'test_mode',
+    'novalnet_eps', 'novalnet_przelewy24', 'novalnet_sofort', 'novalnet_onlinebank_transfer', 'novalnet_bancontact', 'novalnet_postfinance', 'novalnet_postfinancecard'
   ];
 
 
@@ -66,14 +63,15 @@ class Novalnet {
             'novalnet_guaranteed_sepa'      => 'GUARANTEED_DIRECT_DEBIT_SEPA',
             'novalnet_cashpayment'          => 'CASHPAYMENT',
             'novalnet_cc'                   => 'CREDITCARD',
-            'novalnet_sofort'         => 'ONLINE_TRANSFER',
+            'novalnet_sofort'               => 'ONLINE_TRANSFER',
+            'novalnet_onlinebank_transfer'  => 'ONLINE_BANK_TRANSFER',
             'novalnet_ideal'                => 'IDEAL',
             'novalnet_eps'                  => 'EPS',
             'novalnet_giropay'              => 'GIROPAY',
             'novalnet_paypal'               => 'PAYPAL',
             'novalnet_przelewy24'           => 'PRZELEWY24',
             'novalnet_postfinance'          => 'POSTFINANCE',
-            'novalnet_postfinancecard'     => 'POSTFINANCE_CARD',
+            'novalnet_postfinancecard'      => 'POSTFINANCE_CARD',
             'novalnet_multibanco'           => 'MULTIBANCO',
             'novalnet_bancontact'           => 'BANCONTACT',
         );
@@ -162,10 +160,10 @@ class Novalnet {
      *
      * @return array $customer_data
      */
-    public static function getCustomerData($order, $payment, $allow_b2b = null) {	            
+    public static function getCustomerData($order, $payment, $allow_b2b = null) {
         $config                                 = \Drupal::config('commerce_novalnet.application_settings');
-        $profile                                = $order->getBillingProfile();        
-        $address                                = $profile->get('address')->first()->getValue();       
+        $profile                                = $order->getBillingProfile();
+        $address                                = $profile->get('address')->first()->getValue();
         $shipping_address = '';
         if (\Drupal::moduleHandler()->moduleExists('commerce_shipping')
            &&$order->hasField('shipments') && !($order->get('shipments')->isEmpty())) {
@@ -199,15 +197,15 @@ class Novalnet {
 		else {
 		   $customer_data['shipping']['same_as_billing'] = 1;
 		}
-		
+
         if (in_array($payment, array('novalnet_invoice', 'novalnet_sepa'))
-           && \Drupal::service('session')->get($payment. '_guarantee_payment')) {			 
-           if (!empty($address['organization']) && $allow_b2b == 1) {			   
-             $customer_data['billing']['company'] = $address['organization'];             
+           && \Drupal::service('session')->get($payment. '_guarantee_payment')) {
+           if (!empty($address['organization']) && $allow_b2b == 1) {
+             $customer_data['billing']['company'] = $address['organization'];
              \Drupal::service('session')->set('company', $address['organization']);
             }
          }
-         elseif (!empty($address['organization'])) {			
+         elseif (!empty($address['organization'])) {
             $customer_data['billing']['company'] = $address['organization'];
          }
         return $customer_data;
@@ -222,8 +220,8 @@ class Novalnet {
      *
      * @return array $transaction_data
      */
-    public static function getTransactionData($order, $code, $payment, $configuration) {      
-        
+    public static function getTransactionData($order, $code, $payment, $configuration) {
+
         $commerce_info    = $commerce_info = \Drupal::service('extension.list.module')->getExtensionInfo('commerce');
         $transaction_data = [
                 'currency'     => $payment->getAmount()->getCurrencyCode(),
@@ -232,8 +230,8 @@ class Novalnet {
                 'order_no'     => $order->id(),
                 'system_name'  => 'drupal-' . \Drupal::VERSION . '-commerce',
                 'system_ip'    =>  self::getIpAddress(),
-                'system_version' => \Drupal::VERSION . '-' . $commerce_info['version'] . '-NN1.1.0',
-		];		
+                'system_version' => \Drupal::VERSION . '-' . $commerce_info['version'] . '-NN1.2.0',
+		];
 
         if (in_array($code, self::$redirectPayments)) {
             $transaction_data['error_return_url'] = self::getReturnUrl($order, 'commerce_payment.checkout.cancel');
@@ -421,19 +419,6 @@ class Novalnet {
 	}
 
 	/**
-	 * Get unique id
-	 *
-	 * @return string
-	 */
-	public static function getUniqueid() {
-		$randomwordarray = ['8', '7', '6', '5', '4', '3', '2', '1', '9', '0', '9', '7',
-		  '6', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-		];
-		shuffle($randomwordarray);
-		return substr(implode($randomwordarray, ''), 0, 16);
-	}
-
-	/**
 	 * Display guarantee payment configuration fields
 	 *
 	 * @param array $form
@@ -493,7 +478,6 @@ class Novalnet {
 	 * @param object $order
 	 * @param string $payment
 	 * @param array $guarantee_configuartion
-	 * @param string $birth_date
 	 *
 	 * @return string
 	 */
@@ -501,14 +485,14 @@ class Novalnet {
 		if ($guarantee_configuartion['guarantee_configuration'][$payment . '_guarantee_payment']) {
 		   $minimum_amount = !empty($guarantee_configuartion['guarantee_configuration'][$payment . '_guarantee_payment_minimum_order_amount'])
 		  ? $guarantee_configuartion['guarantee_configuration'][$payment . '_guarantee_payment_minimum_order_amount'] : 999;
-		 
+
 		  if ($order->getTotalPrice()->getCurrencyCode() != 'EUR') {
 			$message .= t('Only EUR currency allowed<br>');
-		  }		  	
-		  if (self::formatAmount($order->getTotalPrice()->getNumber()) < (int) $minimum_amount) {			
+		  }
+		  if (self::formatAmount($order->getTotalPrice()->getNumber()) < (int) $minimum_amount) {
 			$message .= t('Minimum order amount must be ' . $minimum_amount/100 . ' ' .'Є'. '<br>');
-		  }		
-		
+		  }
+
 		  if (!$message) {
 			\Drupal::service('session')->set($payment . '_guarantee_payment', true);
 		  }
@@ -521,7 +505,7 @@ class Novalnet {
 			\Drupal::service('session')->remove($payment . '_guarantee_payment');
 		  }
 		  if ($message) {
-			  
+
 			$guarantee_message = t("The payment cannot be processed, because the basic requirements for the payment guarantee haven't been met<br>");
 			\Drupal::messenger()->addError(t($guarantee_message.$message));
 			throw new InvalidRequestException($guarantee_message);
@@ -544,7 +528,7 @@ class Novalnet {
 	 * @return string
 	 */
 	public static function checkGuaranteeAddress($order, $configuartion, $payment) {
-	  $error = '';	  
+	  $error = '';
 	  $billing_address = $order->getBillingProfile()->address->first();
 	  $shipping_address = '';
   $minimum_amount = !empty($configuartion['guarantee_configuration'][$payment . '_guarantee_payment_minimum_order_amount'])
@@ -556,9 +540,9 @@ class Novalnet {
 	  /** @var \Drupal\address\Plugin\Field\FieldType\AddressItem $shipping_address */
 	  $shipping_address = $first_shipment->getShippingProfile()->address->first();
 	  }
- if (self::formatAmount($order->getTotalPrice()->getNumber()) < (int) $minimum_amount) {			
+ if (self::formatAmount($order->getTotalPrice()->getNumber()) < (int) $minimum_amount) {
 			$error = '<br>'.t('Minimum order amount must be ' . $minimum_amount/100 . ' ' .'Є'. '<br>');
-	  }		
+	  }
 	  if (!empty($shipping_address)) {
 		$shipping_data = [
 		  'address' => $shipping_address->getAddressLine1() . ' ' . $shipping_address->getAddressLine2(),
@@ -684,7 +668,7 @@ class Novalnet {
 	 */
 	public static function completeOrder(array $response, $payment_method, $order, $test_mode) {
 		$global_configuration = \Drupal::config('commerce_novalnet.application_settings');
-		$information = self::formTransactionDetails($response, $test_mode, $payment_method);		
+		$information = self::formTransactionDetails($response, $test_mode, $payment_method);
 		if ($payment_method == 'novalnet_prepayment' || ($payment_method == 'novalnet_invoice' && $response['transaction']['status_code'] != 75)) {
 		  $information .= self::formBankDetails($response);
 		}
@@ -725,7 +709,6 @@ class Novalnet {
 	* Form Payment Reference comments for Multibanco
 	*
 	* @param array $response
-	* @param $payment_info
 	*
 	* @return string
 	*/
@@ -791,6 +774,9 @@ class Novalnet {
 			break;
 		  case 'novalnet_sofort':
 			$description = t('You will be redirected to Sofort. Please don’t close or refresh the browser until the payment is completed.');
+			break;
+		  case 'novalnet_onlinebank_transfer':
+			$description = t('You will be redirected to banking page. Please don’t close or refresh the browser until the payment is completed.');
 			break;
 		  case 'novalnet_ideal':
 			$description = t('You will be redirected to iDEAL. Please don’t close or refresh the browser until the payment is completed.');
@@ -895,24 +881,24 @@ class Novalnet {
 	* @return string
 	*/
 	public static function formBankDetails(array $response) {
-		
+
 		$currency_formatter = \Drupal::service('commerce_price.currency_formatter');
 		$amount = sprintf("%.2f", $response['transaction']['amount']/100);
 		$amount = $currency_formatter->format($amount, $response['transaction']['currency']);
 		$bank_details = '<br/><div id=nn_bank_details>' . t('Please transfer the amount of @amt to the following account' ,['@amt' => $amount]);
-		
+
 		if($response['transaction']['status_code'] == 100 && !empty($response['transaction']['due_date'])) {
 		  $bank_details .= t(' on or before : @due_date', ['@due_date' => $response['transaction']['due_date']]);
-		}		
+		}
 		$bank_details .= '<br/>' . t('Account holder: @holder', ['@holder' => $response['transaction']['bank_details']['account_holder']]) . '<br/>' .
 						 t('IBAN: @invoice_iban', ['@invoice_iban' => $response['transaction']['bank_details']['iban']]) . '<br/>' .
 						 t('BIC: @invoice_bic', ['@invoice_bic' => $response['transaction']['bank_details']['bic']]) . '<br/>' .
 						 t('Bank: @bank', ['@bank' => $response['transaction']['bank_details']['bank_name'].' '.
-										   $response['transaction']['bank_details']['bank_place']]).'<br/>' ;						
+										   $response['transaction']['bank_details']['bank_place']]).'<br/>' ;
 		$bank_details .= '<br/>'.t('Please use any of the following payment references when transferring the amount. This is necessary to match it with your corresponding order').'<br/>';
 		$bank_details .= t('Payment Reference @reference : TID @tid', ['@reference' => 1, '@tid' => $response['transaction']['tid']]).'<br/>';
 		$bank_details .= t('Payment Reference @reference : @invoice_ref', ['@reference' => 2, '@invoice_ref' => $response['transaction']['invoice_ref']]).'<br/>';
-		$bank_details .= '</div>';		
+		$bank_details .= '</div>';
 		return $bank_details;
 	}
 
@@ -950,16 +936,6 @@ class Novalnet {
 		else {
 		  throw new InvalidRequestException($status_text);
 		}
-	}
-
-	/**
-	 * Unset the Novalnet session values
-	 *
-	 * @param string $payment
-	 */
-	public static function unsetSession($payment) {
-		// Remove existing session values
-		\Drupal::service('session')->remove($payment . '_guarantee_payment');
 	}
 
 	/**

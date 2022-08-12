@@ -1,12 +1,12 @@
 <?php
 /**
- * Contains the Novalnet form description.
+ * Contains the form description.
  *
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\PluginForm\NovalnetInvoice;
 
@@ -92,7 +92,7 @@ class NovalnetInvoiceForm extends BasePaymentMethodAddForm {
   $company = !empty($address['organization']) ? $address['organization'] : '';
   if ($this->entity->getPaymentGateway()->get('configuration')['guarantee_configuration']['novalnet_invoice_guarantee_payment'] == 1) {
       if ((empty($company) && $allow_b2b == 1) || $allow_b2b == 0) {
-		  
+
            $form['novalnet_invoice_dob'] = [
               '#type'        => 'textfield',
               '#id'          => 'novalnet_invoice_dob',
@@ -100,9 +100,9 @@ class NovalnetInvoiceForm extends BasePaymentMethodAddForm {
               '#placeholder' => 'DD.MM.YYYY',
               '#attributes'  => [
                'onkeypress'   => 'return NovalnetUtility.isNumericBirthdate( this, event )',
-			   'onchange'     => 'return NovalnetUtility.isNumericBirthdate( this,event )',			
+			   'onchange'     => 'return NovalnetUtility.isNumericBirthdate( this,event )',
                'onkeydown'  => 'return NovalnetUtility.isNumericBirthdate( this,event )',
-              ],              
+              ],
               '#required'    => true,
            ];
       }

@@ -4,12 +4,12 @@
 # commerce_novalnet.module, v 1.0.0 Novalnet AG
 msgid ""
 msgstr ""
-"Project-Id-Version: Commerce Novalnet (9.x-1.1.0)\n"
+"Project-Id-Version: Commerce Novalnet (9.x-1.2.0)\n"
 "POT-Creation-Date: 2018-12-30 12:32+0000\n"
-"PO-Revision-Date: 2021-10-20 17:38+0530\n"
+"PO-Revision-Date: 2022-08-12 16:15+0530\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "Last-Translator: \n"
@@ -132,6 +132,12 @@ msgstr "Wählen Sie eine Tarif-ID, die dem bevorzugten Tarifplan entspricht, den
 
 msgid "Please transfer the amount to the below mentioned account details of our payment processor Novalnet"
 msgstr "Überweisen Sie bitte den Betrag an die unten aufgeführte Bankverbindung unseres Zahlungsdienstleisters Novalnet."
+
+msgid "Please transfer the amount of @amt to the following account"
+msgstr "Bitte überweisen Sie den Betrag von @amt auf das folgende Konto"
+
+msgid "on or before : @due_date"
+msgstr "am oder vor : @due_date"
 
 msgid "Account holder"
 msgstr "Kontoinhaber"
@@ -289,7 +295,6 @@ msgstr "Emailadresse des Empfängers"
 msgid "You must configure the webhook endpoint in your <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin portal</a>. This will allow you to receive notifications about the transaction"
 msgstr "Sie müssen die folgende Webhook-URL im <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin-Portal</a> hinzufügen. Dadurch können Sie Benachrichtigungen über den Transaktionsstatus erhalten"
 
-
 msgid "Custom CSS settings"
 msgstr "Angepasste CSS-Einstellungen"
 
@@ -301,7 +306,6 @@ msgstr "Voraussetzungen für die Zahlungsgarantie:"
 
 msgid "Your credit/debit card will be charged immediately after the order is completed"
 msgstr "Ihre Karte wird nach Bestellabschluss sofort belastet"
-
 
 msgid "Even if payment guarantee is enabled, payments will still be processed as non-guarantee payments if the payment guarantee requirements are not met. Review the requirements under 'Enable Payment Guarantee' in the Installation Guide."
 msgstr "Falls die Zahlungsgarantie zwar aktiviert ist, jedoch die Voraussetzungen für Zahlungsgarantie nicht erfüllt sind, wird die Zahlung ohne Zahlungsgarantie verarbeitet. Die Voraussetzungen finden Sie in der Installationsanleitung unter 'Zahlungsgarantie aktivieren'"
@@ -330,8 +334,7 @@ msgstr "Bitte schließen Sie den Browser nach der erfolgreichen Zahlung nicht, b
 msgid "Refund has been initiated for the TID: @orgtid with the amount @amt . New tid:@tid"
 msgstr "Die Rückerstattung für die TID: @orgtid  mit dem Betrag @amt wurde veranlasst"
 
-
-msgid  "Refund has been initiated for the TID:@orgtid with the amount @amt"
+msgid "Refund has been initiated for the TID:@orgtid with the amount @amt"
 msgstr "Die Rückerstattung für die TID @orgtid mit dem Betrag @amt"
 
 msgid "Transaction updated successfully for the TID @tid  with amount @amt and due date @date"
@@ -382,8 +385,8 @@ msgstr "Die Zahlung kann nicht verarbeitet werden, weil die grundlegenden Anford
 msgid "Payment Reference @reference: "
 msgstr "Verwendungszweck @reference: "
 
-msgid "Slip expiry date: "
-msgstr "Verfallsdatum des Zahlscheins: "
+msgid "Slip expiry date: @date"
+msgstr "Verfallsdatum des Zahlscheins: @date"
 
 msgid "Store(s) near you"
 msgstr "Barzahlen-Partnerfiliale in Ihrer Nähe"
@@ -428,7 +431,7 @@ msgid "The transaction has been canceled on @date @time"
 msgstr "Die Transaktion wurde am @date um @time Uhr storniert"
 
 msgid "The transaction has been confirmed on @date @time"
-msgstr "Die Buchung wurde am @date um @time Uhr storniert"
+msgstr "Die Buchung wurde am @date um @time Uhr bestätigt"
 
 msgid "The transaction has been updated succesfully for the tid @tid on @date @time"
 msgstr "The transaction has been updated succesfully for the tid @tid on @date @time'"
@@ -520,7 +523,6 @@ msgstr "Ihr Produktaktivierungsschlüssel ist ein eindeutiger Token für die Hä
 msgid "Your secret key used to encrypt the data to avoid user manipulation and fraud.Get your Payment access key from the <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin Portal</a> PROJECT > Choose your project > Shop Parameters > Payment access key"
 msgstr "Ihr geheimer Schlüssel zur Verschlüsselung der Daten, um Manipulation und Betrug zu vermeiden Ihren Paymentzugriffsschlüssel finden Sie im <a href=\"https://admin.novalnet.de\" target=\"_blank\">Novalnet Admin-Portal</a> PROJEKT > Wählen Sie Ihr Projekt > Shop-Parameter > Paymentzugriffsschlüssel"
 
-
 msgid "Your order is under verification and we will soon update you with the order status. Please note that this may take upto 24 hours."
 msgstr "Ihre Bestellung wird derzeit überprüft. Wir werden Sie in Kürze über den Bestellstatus informieren. Bitte beachten Sie, dass dies bis zu 24 Stunden dauern kann."
 
@@ -550,6 +552,7 @@ msgstr "E-Mail-Benachrichtigungen werden an diese E-Mail-Adresse gesendet"
 
 msgid "On-hold payment action"
 msgstr "Durchführung einer ausgesetzten Zahlung"
+
 msgid "Allow manual testing of the Notification / Webhook URL"
 msgstr "Manuelles Testen der Benachrichtigungs- / Webhook-URL erlauben"
 
@@ -582,7 +585,6 @@ msgstr "Zugelassene Währung: €"
 
 msgid "Minimum order amount: €9,99 or more"
 msgstr "Mindestbetrag der Bestellung: 9,99 € oder mehr"
-
 
 msgid "Age limit: 18 years or more"
 msgstr "Mindestalter: 18 Jahre"

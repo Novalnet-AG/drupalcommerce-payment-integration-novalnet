@@ -1,12 +1,12 @@
 <?php
 /**
- * Contains the Novalnet reirect payment form process.
+ * Contains the reirect payment form process.
  *
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
- * @version    1.1.0
+ * @version    1.2.0
  */
 namespace Drupal\commerce_novalnet\PluginForm\NovalnetPaypal;
 

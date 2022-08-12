@@ -1,12 +1,12 @@
 <?php
 /**
- * Contains the Novalnet webhook related process
+ * Contains the webhook/ callback related process
  *
  * @package    commerce_novalnet
  * @author     Novalnet AG
  * @copyright  Copyright by Novalnet
  * @license    https://www.novalnet.com/payment-plugins/free/license
- * @version    1.1.0
+ * @version    1.2.0
  */
 
 namespace Drupal\commerce_novalnet\Controller;
@@ -92,18 +92,6 @@ class NovalnetWebhook extends ControllerBase {
    * @var integer
    */
   protected $parent_tid;
-  /**
-   * Callback test mode.
-   *
-   * @var int
-   */
-  protected $allow_webhook_test;
-  /**
-   * Novalnet library reference.
-   *
-   * @var bool
-   */
-  protected $novalnetLibrary;
    /**
    * Global configuration
    *
@@ -183,7 +171,7 @@ class NovalnetWebhook extends ControllerBase {
         $this->handleTransactionChargeBack();
         break;
       default:
-        $this-> displayMessage('The webhook notification has been received for the unhandled EVENT type'.
+        $this->displayMessage('The webhook notification has been received for the unhandled EVENT type'.
         $this->eventData['event']['type']);
      }
    }
@@ -193,65 +181,39 @@ class NovalnetWebhook extends ControllerBase {
    * @return void
    *
    */
-   public function handleTransactionCredit() {
-      $transaction_array = array(
-                '@otid' => $this->eventData['event']['parent_tid'],
-                '@tid' => $this->eventData['event']['tid'],
-                '@amt'  => $this->currency_formatter->format($this->eventData['transaction']['amount'] / 100,
-                                                             $this->eventData['transaction']['currency']),
-              );
-      if (in_array($this->eventData['transaction']['payment_type'], array('INVOICE_CREDIT', 'CASHPAYMENT_CREDIT', 'MULTIBANCO_CREDIT', 'PREPAYMENT'), true)) {
-        $order_credit = $this->order_details ['total_paid__number'] * 100;
-        $order_total = $this->orderReference ['amount__number'] * 100;
-        $order_refund = $this->orderReference ['refunded_amount__number'] * 100;
-        if ($order_credit <  $order_total) {
-            $callback_information = t('Credit has been successfully received for the TID : @otid with amount @amt.
-            Please refer PAID order details in our Novalnet Admin Portal for the TID @tid', $transaction_array);
-            // Calculate total amount.
-            $paid_amount = $order_credit + $this->eventData['transaction']['amount'];
-            $amount = (float) sprintf("%.2f", $paid_amount/ 100);
-            $this->order->setTotalPaid(new Price($amount, $this->eventData['transaction']['currency']));
-            $this->order->save();
-            // Calculate including refunded amount.
-            $remaining_amount = $order_total - $order_refund;
-            // update the amount and status
-            $order_state = $this->orderReference['state'];
-            if ( (int) $paid_amount >=  (int) $remaining_amount) {
-
-                // Update callback
-                $order_state = 'completed';
-            }
-            $field_value = array('state' => $order_state);
-
-            $this->updatedetails('commerce_payment', $field_value, 'remote_id', $this->parent_tid);
-            $transaction_details = $this->order->getData('transaction_details')['message'];
-            $this->order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $callback_information]);
-            $this->order->save();
-        }
-        else {
-             $callback_information = 'Order Already Paid';
-        }
-      }
-      else {
-         $order_credit = $this->order_details ['total_paid__number'] *100;
-         $paid_amount = $order_credit + $this->eventData['transaction']['amount'];
-         $callback_information = t('Credit has been successfully received for the TID : @otid with amount @amt.
-         Please refer PAID order details in our Novalnet Admin Portal for the TID @tid', $transaction_array);
-         $amount = (float) sprintf("%.2f", $paid_amount/ 100);
-         $this->order->setTotalPaid(new Price($amount, $this->eventData['transaction']['currency']));
-         $this->order->save();
-         $order_state = 'completed';
-         $field_value = array('state' => $order_state);
-         $this->updatedetails('commerce_payment', $field_value, 'remote_id', $this->parent_tid);
-         $transaction_details = $this->order->getData('transaction_details')['message'];
-         $this->order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $callback_information]);
-         $this->order->save();
-      }
-      // Send notification mail to the configured E-mail.
-
-      $this->sendMailNotification($callback_information, $this->orderReference['order_id']);
-      $this->displayMessage($callback_information);
-   }
+	public function handleTransactionCredit() {
+		$transaction_array = array(
+			'@otid' => $this->eventData['event']['parent_tid'],
+			'@tid' => $this->eventData['event']['tid'],
+			'@amt'  => $this->currency_formatter->format($this->eventData['transaction']['amount'] / 100, $this->eventData['transaction']['currency']),
+		);
+		$callback_information = '';
+		$order_total_amount = $this->orderReference ['amount__number'] * 100;
+		$refunded_amount = $this->orderReference ['refunded_amount__number'] * 100;
+		$amount_to_be_paid = $order_total_amount - $refunded_amount;
+		$amount_credited = $this->order_details ['total_paid__number'] * 100;
+		$paid_amount = $amount_credited + $this->eventData['transaction']['amount'];
+		$order_state = $this->orderReference['state'];
+		$amount = (float) sprintf("%.2f", $paid_amount/ 100);
+		$transaction_details = $this->order->getData('transaction_details')['message'];
+		if (in_array($this->eventData['transaction']['payment_type'], array('INVOICE_CREDIT', 'CASHPAYMENT_CREDIT', 'MULTIBANCO_CREDIT', 'PREPAYMENT'), true)) { // Bank transfer payments
+			$callback_information = t('Credit has been successfully received for the TID : @otid with amount @amt. Please refer PAID order details in our Novalnet Admin Portal for the TID @tid', $transaction_array);
+			if ( (int) $paid_amount >=  (int) $amount_to_be_paid) { // If full amount paid
+				$order_state = 'completed';
+			}
+		}
+		else { // Other than bank transfer payments
+			$callback_information = t('Credit has been successfully received for the TID : @otid with amount @amt. Please refer PAID order details in our Novalnet Admin Portal for the TID @tid', $transaction_array);
+			$order_state = 'completed';
+		}
+		$this->order->setTotalPaid(new Price($amount, $this->eventData['transaction']['currency']));
+		$this->order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $callback_information]);
+		$this->updatedetails('commerce_payment', array('state' => $order_state), 'remote_id', $this->parent_tid);
+		$this->order->save();
+		// Send notification mail to the configured E-mail.
+		$this->sendMailNotification($callback_information, $this->orderReference['order_id']);
+		$this->displayMessage($callback_information);
+	}
    /**
    * Handle transaction update
    *
@@ -298,7 +260,7 @@ class NovalnetWebhook extends ControllerBase {
                                 '@date' => date('d.m.Y'),
                                 '@time' => date('H:i:s'),
                           );
-                        $callback_information  = t('The transaction has been updated succesfully for the tid @tid on @date @time', $transaction_parameter);
+                        $callback_information  = t('The transaction has been updated succesfully for the tid @tid on @date @time', $transaction_parameter) .'<br />';
                         if (in_array($this->eventData ['transaction']['payment_type'], array('INVOICE', 'GUARANTEED_INVOICE'))
                             && empty($this->eventData['transaction']['bank_details']) && !empty($this->orderReference ['transaction_details'])) {
                             $this->eventData ['transaction']['bank_details'] = $this->orderReference ['transaction_details'] ;
@@ -340,6 +302,7 @@ class NovalnetWebhook extends ControllerBase {
             }
        }
        elseif (in_array($this->eventData['transaction']['update_type'] , array('DUE_DATE','AMOUNT_DUE_DATE'))) {
+
 		   $amount = $this->currency_formatter->format($this->eventData['transaction']['amount']/100, $this->eventData['transaction']['currency']);
            $transaction_array = array(
                 '@tid'  => $this->eventData['event']['tid'],
@@ -347,17 +310,10 @@ class NovalnetWebhook extends ControllerBase {
                 '@date' =>  $this->eventData['transaction']['due_date'],
              );
            $callback_information = t('Transaction updated successfully for the TID @tid  with amount @amt
-           and due date @date', $transaction_array);
-           if (in_array($this->eventData['transaction']['payment_type'], array('INVOICE', 'GUARANTEED_INVOICE'))) {			
-               $callback_information .= Novalnet::formBankDetails($this->eventData, true);
-           }  
-           elseif($this->eventData['transaction']['payment_type'] == 'PREPAYMENT')    
-           {
-			  $callback_information .=  '<br/><br/>'.str_replace(t('Please transfer the amount of @amt to the following account' ,['@amt' => $amount]),
-									 t('Please transfer the amount of @amt to the following account' ,['@amt' => $amount]).''.
-									 t(' on or before : @due_date', ['@due_date' => $this->eventData['transaction']['due_date']]) .
-									 '<br/>', unserialize($this->order_details['data'])['transaction_details']['message']);
-		   } 
+           and due date @date', $transaction_array) .'<br />';
+           if (in_array($this->eventData['transaction']['payment_type'], array('INVOICE', 'GUARANTEED_INVOICE', 'PREPAYMENT'))) {
+               $callback_information .=  Novalnet::formBankDetails($this->eventData, true);
+           }
            // Send notification mail to the configured E-mail.
            $this->sendMailNotification($callback_information, $this->orderReference['order_id']);
        }
@@ -367,7 +323,13 @@ class NovalnetWebhook extends ControllerBase {
                 '@amt'  => $this->currency_formatter->format($this->eventData['transaction']['amount']/100,
                            $this->eventData['transaction']['currency']),
              );
-           $callback_information = t('Transaction updated successfully for the TID @tid  with amount @amt', $transaction_array);
+           $callback_information = t('Transaction updated successfully for the TID @tid  with amount @amt', $transaction_array).'<br />';
+           if(!empty($this->eventData['transaction']['bank_details']) )
+           {
+			   if (in_array($this->eventData['transaction']['payment_type'], array('INVOICE', 'GUARANTEED_INVOICE', 'PREPAYMENT'))) {
+				   $callback_information .=  Novalnet::formBankDetails($this->eventData, true);
+			   }
+		   }
            $field_value = array('amount__number' => sprintf('%.2f',$this->eventData['transaction']['amount']/100));
            $this->updatedetails('commerce_payment', $field_value, 'remote_id', $this->parent_tid);
 
@@ -445,7 +407,7 @@ class NovalnetWebhook extends ControllerBase {
            }
           else{
 			 if(in_array($this->eventData['transaction']['payment_type'],array('INVOICE','GUARANTEED_INVOICE','DIRECT_DEBIT_SEPA','GUARANTEED_DIRECT_DEBIT_SEPA','PREPAYMENT'))){
-			    if($response['transaction']['status'] == 'DEACTIVATED'){
+			    if($this->eventData['transaction']['status'] == 'DEACTIVATED'){
 			      $order_state = 'voided';
 			     }
 			     else{
@@ -479,14 +441,14 @@ class NovalnetWebhook extends ControllerBase {
 			$transaction_details = $this->order->getData('transaction_details')['message'];
 			$this->order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $callback_information]);
 			$this->order->save();
-			$this->sendMailNotification($callback_information, $this->orderReference['order_id']);			
+			$this->sendMailNotification($callback_information, $this->orderReference['order_id']);
         }
         else
         {
 			$callback_information = t('Callback script executed already. Refer order:' .$this->orderReference['order_id']);
 		}
 		$this->displayMessage($callback_information);
-        
+
    }
    /**
    * Handle transaction capture
@@ -508,12 +470,12 @@ class NovalnetWebhook extends ControllerBase {
 									 t(' on or before : @due_date', ['@due_date' => $this->eventData['transaction']['due_date']]) .
 									 '<br/>', unserialize($this->order_details['data'])['transaction_details']['message']);
 		  }
-		  $field_value = array('state' => $order_status);
+		  $field_value = array('state' => $order_status, 'completed' => strtotime("now"));
 		  $this->updatedetails('commerce_payment', $field_value, 'remote_id', $this->parent_tid);
 		  $transaction_details = $this->order->getData('transaction_details')['message'];
 		  $this->order->setData('transaction_details', ['message' => $transaction_details .'<br />'.'<br />'. $callback_information]);
 		  $this->order->save();
-		  $this->sendMailNotification($callback_information, $this->orderReference['order_id']);		  
+		  $this->sendMailNotification($callback_information, $this->orderReference['order_id']);
 	 }
 	 else
 	 {
@@ -630,9 +592,6 @@ return $transaction_details;
 		$data .= '<br/>' . Novalnet::responseMessage($request);
 		$order_status = 'canceled';
 		}
-		$redirectPayments = ['novalnet_paypal', 'novalnet_ideal', 'novalnet_giropay',
-		'novalnet_eps', 'novalnet_przelewy24', 'novalnet_sofort','novalnet_bancontact','novalnet_postfinance','novalnet_postfinancecard'
-		];
 
 		$this->order->setData('transaction_details', ['message' => '<br />'.$data]);
 
@@ -658,7 +617,7 @@ return $transaction_details;
    * @param string $request
    *   The callback request parameter.
    */
-  public function commerceNovalnetPaymentSave($callback_state, $order_id, $callback_information = '', $request_data, $credit = false) {
+  public function commerceNovalnetPaymentSave($callback_state, $order_id, $request_data, $callback_information = '') {
     $order = Order::load($order_id);
     $order->getState()->value = $callback_state;
     $order->state = $callback_state;
