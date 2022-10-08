@@ -6,7 +6,7 @@ Novalnet <a href= "https://www.novalnet.de/"> merchant account </a> is required 
 
 Version in the following languages: EN & DE 
 
-Also drupal 8.9.0-8.9.20 and 9.0.0-9.4.5 and commerce 2.25-2.30 are supported by Novalnet. 
+Also drupal 8.9.0-8.9.20 and 9.0.0-9.4.7 and commerce 2.25-2.31 are supported by Novalnet. 
 More information about these can be found <a href= "https://www.novalnet.de/modul/drupalcommerce-payment-module"> here </a>
 
 ## Key features of Drupal Commerce payment module
