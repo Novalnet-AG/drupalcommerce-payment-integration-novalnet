@@ -65,7 +65,7 @@ Follow these steps to install the Drupal Commerce Payment Integration by Novalne
 4. Install & configure the preferred payment types in your shop admin panel
 
 ## License
-See our License Agreement at: https://www.novalnet.com/payment-plugins/free/license </a>
+See our License Agreement at: [https://www.novalnet.com/payment-plugins/free/license](https://www.novalnet.com/payment-plugins-free-license/) </a>
 
 ## Documentation & Support
 
