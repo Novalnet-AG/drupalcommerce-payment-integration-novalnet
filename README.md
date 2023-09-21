@@ -2,7 +2,7 @@
 The Drupal Commerce Payment Gateway by Novalnet provides a secure integration of payments and payment services for any Drupal Commerce shop. The shop admin can experience<a href= "https://www.novalnet.de/full-service-zahlungsabwicklung"> automated payment processing</a>, enriched customer experiences and improved conversion rates, all under one platform. One contract with Novalnet eliminates the need to establish multiple partnerships for accepting, managing and processing payments from checkout to collection. 
 
 ## Integration requirements
-Novalnet <a href= "https://www.novalnet.de/"> merchant account </a> is required for processing payments through the Drupal Commerce Payment Gateway from Novalnet. The module is available for the drupal 7.24-7.84 and commerce 1.0-1.16
+Novalnet <a href= "https://www.novalnet.de/"> merchant account </a> is required for processing payments through the Drupal Commerce Payment Gateway from Novalnet. The module is available for the drupal 7.24-7.98 and commerce 1.0-1.17
 
 Version in the following languages: EN & DE 
 
