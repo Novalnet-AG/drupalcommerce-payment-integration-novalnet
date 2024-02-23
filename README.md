@@ -4,7 +4,7 @@ The Drupal Commerce 8 & 9 Payment module by Novalnet provides a secure integrati
 ## Integration requirements
 Novalnet <a href= "https://www.novalnet.de/"> merchant account </a> is required for processing payments through the Drupal Commerce Payment Gateway from Novalnet. The module is available for the drupal 8.9.0-8.9.20 and 9.0.0-9.4.7 and commerce 2.25-2.31 versions in the following languages: EN & DE are supported by Novalnet.
 
-More information about these can be found <a href= "https://www.novalnet.de/modul/drupalcommerce-payment-module"> here </a>
+More information about these can be found <a href= "https://www.novalnet.de/integration/drupalcommerce-payment-module"> here </a>
 
 ## Key features of Drupal Commerce payment module
 * Easy configuration for all payment methods
