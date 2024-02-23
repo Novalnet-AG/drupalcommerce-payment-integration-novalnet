@@ -1,12 +1,9 @@
 # DRUPAL COMMERCE PAYMENT INTEGRATION BY NOVALNET
-The Drupal Commerce Payment Gateway by Novalnet provides a secure integration of payments and payment services for any Drupal Commerce shop. The shop admin can experience<a href= "https://www.novalnet.de/full-service-zahlungsabwicklung"> automated payment processing</a>, enriched customer experiences and improved conversion rates, all under one platform. One contract with Novalnet eliminates the need to establish multiple partnerships for accepting, managing and processing payments from checkout to collection. 
+The Drupal Commerce 8 & 9 Payment module by Novalnet provides a secure integration of payments and payment services for any Drupal Commerce shop. The shop admin can experience<a href= "https://www.novalnet.de/full-service-zahlungsabwicklung"> automated payment processing</a>, enriched customer experiences and improved conversion rates, all under one platform. One contract with Novalnet eliminates the need to establish multiple partnerships for accepting, managing and processing payments from checkout to collection.
 
 ## Integration requirements
-Novalnet <a href= "https://www.novalnet.de/"> merchant account </a> is required for processing payments through the Drupal Commerce Payment Gateway from Novalnet. The module is available for the drupal 7.24-7.98 and commerce 1.0-1.17
+Novalnet <a href= "https://www.novalnet.de/"> merchant account </a> is required for processing payments through the Drupal Commerce Payment Gateway from Novalnet. The module is available for the drupal 8.9.0-8.9.20 and 9.0.0-9.4.7 and commerce 2.25-2.31 versions in the following languages: EN & DE are supported by Novalnet.
 
-Version in the following languages: EN & DE 
-
-Also drupal 8.9.0-8.9.20 and 9.0.0-9.4.7 and commerce 2.25-2.31 are supported by Novalnet. 
 More information about these can be found <a href= "https://www.novalnet.de/modul/drupalcommerce-payment-module"> here </a>
 
 ## Key features of Drupal Commerce payment module
@@ -59,7 +56,7 @@ href="mailto:sales@novalnet.de"> sales@novalnet.de </a> or +49 89 9230683-20 for
 ## Drupal Commerce Payment Integration steps
 Follow these steps to install the Drupal Commerce Payment Integration by Novalnet:
 
-1. Get the Drupal Commerce Payment Module & detailed documentation by <a href=  "https://www.novalnet.de/kontakt/sales"> contacting us </a>
+1. Get the Drupal Commerce Payment Module & detailed documentation by <a href=  "https://www.novalnet.de/kontakt"> contacting us </a>
 2. Install the Module to your Drupal Commerce shop
 3. Configure Product Activation Key in the shop admin panel
 4. Install & configure the preferred payment types in your shop admin panel
