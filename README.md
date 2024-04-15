@@ -65,15 +65,16 @@ Follow these steps to install the Drupal Commerce Payment Integration by Novalne
 See our License Agreement at: https://www.novalnet.com/payment-plugins-free-license/</a>
 
 ## Documentation & Support
-
-For more information about the Drupal Commerce Payment Integration by Novalnet, please get in touch with us: <a href="mailto:sales@novalnet.de"> sales@novalnet.de or +49 89 9230683-20
+For more information about the Drupal Commerce Payment Integration by Novalnet, please get in touch with us: <a href="mailto:sales@novalnet.de"> sales@novalnet.de </a> or +49 89 9230683-20<br>
 
 Novalnet AG<br>
 Zahlungsinstitut (ZAG)<br>
-Feringastr. 4<br>
-85774 Unterföhring<br>
+Gutenbergstraße 7<br>
+D-85748 Garching<br>
 Deutschland<br>
-Web: <a href= "https://www.novalnet.de/"> www.novalnet.de </a>
+E-mail: sales@novalnet.de<br>
+Tel: +49 89 9230683-20<br>
+Web: www.novalnet.de
 
 ## Novalnet AG
 
