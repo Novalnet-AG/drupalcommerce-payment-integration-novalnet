@@ -1,0 +1,5 @@
+services:
+ commerce_novalnet.event_subscriber:
+    class: Drupal\commerce_novalnet\EventSubscriber\CommerceNovalnetSubscriber
+    tags:
+      - {name: event_subscriber}

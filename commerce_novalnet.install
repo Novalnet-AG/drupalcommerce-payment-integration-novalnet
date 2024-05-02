@@ -1,0 +1,170 @@
+<?php
+
+/**
+ * @file
+ * Contains install and update functions for Commerce.
+ * 
+ * @category   PHP
+ * @package    commerce_novalnet
+ * @author     Novalnet AG
+ * @copyright  Copyright by Novalnet
+ * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
+ * @version    1.0.1
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function commerce_novalnet_schema() {
+  $schema = [];
+  $schema['commerce_novalnet_transaction_detail'] = [
+    'description' => 'Novalnet transaction details',
+    'fields' => [
+      'id'         => [
+        'type'     => 'serial',
+        'length'   => 11,
+        'not null' => TRUE,
+      ],
+      'tid'        => [
+        'type'     => 'int',
+        'size'     => 'big',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'reference_tid' => [
+        'type'     => 'int',
+        'size'     => 'big',
+        'unsigned' => TRUE,
+      ],
+      'tid_status' => [
+        'type'     => 'int',
+        'unsigned' => TRUE,
+      ],
+      'payment_type' => [
+        'type'     => 'varchar',
+        'length'   => 50,
+        'not null' => TRUE,
+      ],
+
+      'paid_amount' => [
+        'type'     => 'int',
+        'size'     => 'big',
+        'unsigned' => TRUE,
+      ],
+      'customer_id' => [
+        'type'     => 'int',
+        'default'  => NULL,
+      ],
+      'order_id'    => [
+        'type'      => 'varchar',
+        'length'   => 50,
+        'not null' => TRUE,
+      ],
+      'total_amount'  => [
+        'type'      => 'int',
+        'size'     => 'big',
+        'unsigned'  => TRUE,
+      ],
+    ],
+    'primary key' => [
+      'id',
+    ],
+    'indexes' => [
+      'tid'         => ['tid'],
+      'customer_id' => ['customer_id'],
+      'order_id'    => ['order_id'],
+    ],
+  ];
+
+  $schema['commerce_novalnet_aff_user_detail'] = [
+    'description' => 'Novalnet affiliate user account information',
+    'fields'      => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'aff_id'           => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'customer_id'      => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'aff_order_no'     => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'indexes'   => [
+      'customer_id' => ['customer_id'],
+    ],
+    'primary key'  => ['id'],
+  ];
+  $schema['commerce_novalnet_affiliate_detail'] = [
+    'description' => 'Novalnet merchant / affiliate account information',
+    'fields'               => [
+      'id'   => [
+        'type'     => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'vendor_id'        => [
+        'type'     => 'int',
+        'not null' => TRUE,
+        'default'  => 0,
+      ],
+      'vendor_authcode'  => [
+        'type'      => 'varchar',
+        'length'    => 40,
+        'not null'  => TRUE,
+        'default'   => '',
+      ],
+      'product_id'       => [
+        'type'       => 'int',
+        'not null'   => TRUE,
+        'default'    => 0,
+      ],
+      'product_url'      => [
+        'type'        => 'varchar',
+        'length'      => 40,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'activation_date'  => [
+        'type'        => 'varchar',
+        'length'      => 32,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'aff_id'           => [
+        'type'        => 'int',
+        'not null'    => TRUE,
+        'default'     => 0,
+      ],
+      'aff_authcode'     => [
+        'type'        => 'varchar',
+        'length'      => 40,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'aff_accesskey'    => [
+        'type'        => 'varchar',
+        'length'      => 40,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+    ],
+    'indexes'   => [
+      'nn_aff_id' => ['aff_id'],
+    ],
+    'primary key'  => ['id'],
+  ];
+  return $schema;
+}

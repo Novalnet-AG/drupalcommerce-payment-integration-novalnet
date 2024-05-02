@@ -1,0 +1,11 @@
+name: Commerce Novalnet Payments
+type: module
+description: 'Implements Novalnet payment services for use with Drupal8 Commerce.'
+package: Commerce Payments
+configure: commerce_novalnet.global_settings
+
+dependencies:
+   - commerce:commerce
+   - commerce:commerce_payment
+   - entity
+core: 8.x

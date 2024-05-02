@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * @file
+ * Contains hooks for Commerce Novalnet payment module.
+ * 
+ * @category   PHP
+ * @package    commerce_novalnet
+ * @author     Novalnet AG
+ * @copyright  Copyright by Novalnet
+ * @license    https://www.novalnet.de/payment-plugins/kostenlos/lizenz
+ * @version    1.0.1
+ */
+
+use Drupal\file\FileInterface;
+use Drupal\commerce_novalnet\NovalnetLibrary;
+
+/**
+ * Function for validate payment logo.
+ *
+ * @param \Drupal\file\FileInterface $file
+ *   The file interface.
+ *
+ * @return string
+ *   Return the file
+ */
+function file_validate_name(FileInterface $file) {
+  $file->filename = $file->getFilename();
+  $destination_dir = "public://novalnet_custom_logo";
+  file_prepare_directory($destination_dir, FILE_CREATE_DIRECTORY);
+  if (substr($destination_dir, -1) != '/') {
+    $destination_dir .= '/';
+  }
+  $extension = end(explode('.', $file->getFilename()));
+  $file->filename = \Drupal::service('session')->get('payment_name') . '.' . $extension;
+  $file->destination = file_destination($destination_dir . $file->getFilename(), FILE_EXISTS_RENAME);
+  $file->save();
+  if ($file->destination === FALSE) {
+    $errors[] = t('The file %source could not be uploaded because a file by that name already exists in the destination %directory.',
+    ['%source' => $file->source, '%directory' => $destination_dir]);
+    return $errors;
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function commerce_novalnet_mail($key, &$message, $params) {
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+  switch ($key) {
+    case 'novalnet_callback':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('@title', ['@title' => $params['node_title']], $options);
+      $message['body'][] = $params['message'];
+	  $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed';
+	  if($params['bcc_mail']) {
+	     $abcc = '';
+	  foreach ($params['bcc_mail'] as $abcc => $svalBcc) {
+                $svalBcc = trim($svalBcc);
+                 $valid_bcc = \Drupal::service('email.validator')->isValid($svalBcc);
+				if ($valid_bcc == TRUE) {
+				$message['headers']['Bcc'] = $svalBcc;
+			}
+	  }
+  }
+}
+}
+
+/**
+ * Implements hook_preprocess_commerce_checkout_completion_message().
+ */
+function commerce_novalnet_preprocess_commerce_checkout_completion_message(&$variables) {
+  $order = $variables['order_entity'];
+  $variables['payment_instructions'] = [
+    '#markup' => '<span class="commerce-novalnet-comments">' . $order->getData('transaction_details_comments')['message'] . '</span>',
+  ];
+}
+
+/**
+ * Implements hook_preprocess_commerce_order().
+ */
+function commerce_novalnet_preprocess_commerce_order(&$variables) {
+  /** @var Drupal\commerce_order\Entity\OrderInterface $order */
+  $redirect_payment = !empty(\Drupal::service('session')->get('redirect')) ? \Drupal::service('session')->get('redirect') : ' ';
+	$order = $variables['order_entity'];
+  $order = $variables['order_entity'];
+  $variables['novalnet_transaction_details'] = [
+    '#markup' => '<span class="commerce-novalnet-comments">' . $order->getData('transaction_details')['message'] . '</span>',
+  ];
+}
+
+/**
+ * Implements hook_preprocess_commerce_order_receipt().
+ */
+function commerce_novalnet_preprocess_commerce_order_receipt(&$variables) {
+  /** @var Drupal\commerce_order\Entity\OrderInterface $order */
+    $redirect_payment = !empty(\Drupal::service('session')->get('redirect')) ? \Drupal::service('session')->get('redirect') : '';
+	$order = $variables['order_entity'];
+	if(!empty($order->getData('transaction_details_direct'))) {
+		$variables['novalnet_transaction_details'] = [
+		  '#markup' => '<span class="commerce-novalnet-comments">' . $order->getData('transaction_details')['message'] . '</span>',
+		];
+	}
+	else {
+		   $variables['payment_method'] = $redirect_payment;
+		$variables['novalnet_transaction_details'] = [
+		  '#markup' => '<span class="commerce-novalnet-comments">' . $order->getData('transaction_details_redirect')['message'] . '</span>',
+		];
+	}
+}
+
+
+/**
+ * Implements hook_form_alter().
+ */
+function commerce_novalnet_form_alter(&$form, &$variables, $form_id) {
+  if (!empty($form['#step_id']) && $form['#step_id'] == 'order_information') {
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $payment_gateway_storage = $entity_type_manager->getStorage('commerce_payment_gateway');
+    $gateways = $payment_gateway_storage->loadMultiple();
+    $novalnet_library = new NovalnetLibrary();
+    foreach ($gateways as $gateway) {
+      if ($gateway->id() == $form['payment_information']['payment_method']['#default_value']) {
+        $configuration = $gateway->getPluginConfiguration();
+        if (isset($configuration['notification'])) {
+          $form['payment_information']['payment_method']['display_title'] = $novalnet_library->commerceNovalnetDisplayPaymentLogo($configuration['display_label'], $gateway->getPluginId(), $configuration);
+          $form['payment_information']['payment_method']['description'] = [
+            '#markup' => '<br>'.$novalnet_library->commerceNovalnetGetDescription($gateway->getPluginId()),
+          ];
+          if ($configuration['mode'] == 'test') {
+            $form['payment_information']['payment_method']['test_mode'] = [
+              'inside' => [
+                '#type' => 'html_tag',
+                '#tag' => 'p',
+                '#value' => t('The payment will be processed in the test mode therefore amount for this transaction will not be charged'),
+                '#attributes' => [
+                  'style' => ['color:red'],
+                ],
+              ],
+            ];
+          }
+          if (!empty($configuration['notification'])) {
+            $form['payment_information']['payment_method']['buyer_notification'] = [
+              '#prefix' => '<p>',
+              '#markup' => $configuration['notification'],
+              '#suffix' => '</p>',
+            ];
+          }
+        }
+      }
+    }
+  }
+}
+
